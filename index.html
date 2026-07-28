@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نبض‌شهر | دوقلوی دیجیتال و موتور شبیه‌سازی هوشمند شهری</title>
+<meta name="description" content="نبض‌شهر — پلتفرم دوقلوی دیجیتال شهری و شبیه‌ساز هوشمند تصمیم‌گیری برای مدیران شهری، پیش از اجرا اثر هر تصمیم را ببینید.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+
+<!-- Header -->
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="#top" class="logo">
+      <span class="logo-mark">
+        <svg viewBox="0 0 48 48" width="34" height="34" aria-hidden="true">
+          <path d="M4 26H14L18 12L26 38L30 20L34 26H44" stroke="url(#pulseGrad)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <defs>
+            <linearGradient id="pulseGrad" x1="0" y1="0" x2="48" y2="0">
+              <stop offset="0" stop-color="#22d3ee"/>
+              <stop offset="1" stop-color="#818cf8"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </span>
+      <span class="logo-text">نبض‌<b>شهر</b></span>
+    </a>
+    <nav class="main-nav">
+      <a href="#problem">مسئله</a>
+      <a href="#solution">راه‌حل</a>
+      <a href="#features">قابلیت‌ها</a>
+      <a href="#roadmap">مسیر توسعه</a>
+      <a href="#business">مدل کسب‌وکار</a>
+    </nav>
+    <a href="#contact" class="btn btn-ghost nav-cta">درخواست دمو</a>
+    <button class="nav-toggle" aria-label="باز کردن منو" id="navToggle">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <span class="eyebrow">پلتفرم دوقلوی دیجیتال شهری · AI Decision Engine</span>
+      <h1>پیش از اجرا، <span class="text-gradient">اثر هر تصمیم شهری</span> را ببینید</h1>
+      <p class="hero-lead">
+        نبض‌شهر تصویری زنده، یکپارچه و قابل شبیه‌سازی از شهر می‌سازد و به مدیران شهری کمک می‌کند
+        پیش از اجرای هر پروژه عمرانی، سیاست ترافیکی یا برنامه بحران، اثرات متقابل آن بر حمل‌ونقل،
+        انرژی، زیرساخت و رضایت شهروندان را بسنجند.
+      </p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn btn-primary">درخواست دمو اختصاصی</a>
+        <a href="#solution" class="btn btn-outline">دیدن راه‌حل</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num">۱</span><span class="stat-label">تصویر یکپارچه از کل شهر</span></div>
+        <div class="stat"><span class="stat-num">N</span><span class="stat-label">سناریوی شبیه‌سازی‌شده پیش از اجرا</span></div>
+        <div class="stat"><span class="stat-num">۰</span><span class="stat-label">تصمیم کور و بدون داده</span></div>
+      </div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="pulse-city">
+        <svg viewBox="0 0 600 220" preserveAspectRatio="none">
+          <polyline class="pulse-line" points="0,150 60,150 90,60 120,190 150,110 180,150 260,150 290,40 320,200 350,150 430,150 460,90 490,150 600,150"/>
+          <g class="city-blocks">
+            <rect x="20" y="160" width="18" height="40"/>
+            <rect x="45" y="140" width="18" height="60"/>
+            <rect x="150" y="170" width="18" height="30"/>
+            <rect x="200" y="130" width="18" height="70"/>
+            <rect x="360" y="160" width="18" height="40"/>
+            <rect x="500" y="150" width="18" height="50"/>
+            <rect x="530" y="120" width="18" height="80"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- Problem -->
+  <section id="problem" class="section">
+    <div class="container">
+      <span class="section-tag">مسئله #۰۹۳</span>
+      <h2>هیچ تصمیمی فقط روی یک بخش شهر اثر نمی‌گذارد</h2>
+      <p class="section-lead">
+        بستن یک خیابان فقط الگوی ترافیک را تغییر نمی‌دهد؛ روی زمان رسیدن اورژانس، حمل‌ونقل عمومی،
+        کسب‌وکارهای محلی، مصرف انرژی، کیفیت هوا و رضایت شهروندان هم اثر می‌گذارد. با این حال در بیشتر
+        شهرها، تصمیم‌های مهم پیش از اجرا به‌صورت سیستماتیک شبیه‌سازی نمی‌شوند.
+      </p>
+      <div class="loop-diagram">
+        <div class="loop-item"><span class="loop-icon">🗂️</span>داده‌های پراکنده در GIS، ترافیک و خدمات شهری</div>
+        <div class="loop-arrow">←</div>
+        <div class="loop-item"><span class="loop-icon">🎯</span>تصمیم بدون ارزیابی سناریو</div>
+        <div class="loop-arrow">←</div>
+        <div class="loop-item"><span class="loop-icon">💸</span>هزینه‌های پیش‌بینی‌نشده و اثرات جانبی</div>
+        <div class="loop-arrow">←</div>
+        <div class="loop-item"><span class="loop-icon">⚠️</span>تخصیص غیربهینه منابع شهری</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Solution -->
+  <section id="solution" class="section section-alt">
+    <div class="container">
+      <span class="section-tag">راه‌حل</span>
+      <h2>از دوقلوی دیجیتال شهر تا مغز شبیه‌ساز تصمیم‌گیری</h2>
+      <p class="section-lead">
+        نبض‌شهر در دو لایه رشد می‌کند: زیرساختی که واقعیت شهر را یکپارچه می‌کند و لایه‌ای هوشمند که
+        روی آن تصمیم می‌سازد.
+      </p>
+      <div class="layers">
+        <div class="layer-card">
+          <div class="layer-num">۰۱</div>
+          <h3>زیرساخت دوقلوی دیجیتال شهر</h3>
+          <p>
+            اتصال و یکپارچه‌سازی داده‌های GIS، ترافیک، حمل‌ونقل، زیرساخت آب و برق، پروژه‌های عمرانی و
+            خدمات شهری در یک تصویر زنده و به‌روز از شهر — پایه‌ای که هر شبیه‌سازی روی آن اجرا می‌شود.
+          </p>
+        </div>
+        <div class="layer-connector" aria-hidden="true"></div>
+        <div class="layer-card layer-card-ai">
+          <div class="layer-num">۰۲</div>
+          <h3>موتور هوش مصنوعی شبیه‌سازی و تصمیم‌یاری</h3>
+          <p>
+            هوش مصنوعی داده‌های ترافیکی، آب‌وهوایی و رخدادهای گذشته را کنار داده‌های زنده شهر می‌گذارد
+            و اثر سناریوهای مختلف را پیش از اجرا پیش‌بینی می‌کند؛ از اثر یک پروژه جدید بر ترافیک تا
+            پیش‌بینی آب‌گرفتگی و تحلیل تاب‌آوری زیرساخت.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="section">
+    <div class="container">
+      <span class="section-tag">قابلیت‌ها</span>
+      <h2>شروع از یک مسئله مشخص، رشد به سمت یک دوقلوی کامل</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🚦</div>
+          <h3>شبیه‌سازی ترافیک</h3>
+          <p>اثر بستن یک خیابان، تغییر مسیر یا پروژه جدید را روی الگوی ترافیک و زمان رسیدن اورژانس پیش از اجرا ببینید.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🏗️</div>
+          <h3>ارزیابی پروژه‌های عمرانی</h3>
+          <p>پیش از ساخت، فشار پروژه بر شبکه آب، برق، پارکینگ و خدمات شهری محله را بسنجید.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🌊</div>
+          <h3>مدیریت بحران و تاب‌آوری</h3>
+          <p>پیش‌بینی آب‌گرفتگی، تحلیل تاب‌آوری زیرساخت‌ها و برنامه‌ریزی واکنش سریع بر پایه داده‌های زنده.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🗺️</div>
+          <h3>مدل‌سازی توسعه شهری</h3>
+          <p>اثر افزایش تراکم ساختمانی و تغییر کاربری زمین را روی زیرساخت و کیفیت زندگی محله شبیه‌سازی کنید.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>ارزیابی سیاست‌ها</h3>
+          <p>پیش از تصویب یک سیاست شهری، اثر آن را روی کیفیت هوا، انرژی و رضایت شهروندان تحلیل کنید.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🧠</div>
+          <h3>موتور تصمیم‌یار هوشمند</h3>
+          <p>توصیه‌های مبتنی بر داده برای تخصیص بهینه بودجه و منابع شهری بین پروژه‌های رقیب.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Roadmap -->
+  <section id="roadmap" class="section section-alt">
+    <div class="container">
+      <span class="section-tag">مسیر توسعه</span>
+      <h2>Wedge روشن، افق بزرگ</h2>
+      <p class="section-lead">
+        شروع از یک مسئله فوری و مشخص، حرکت تدریجی به سمت یک زیرساخت تصمیم‌سازی کامل برای شهر.
+      </p>
+      <ol class="roadmap-steps">
+        <li>
+          <span class="step-index">۱</span>
+          <div>
+            <h4>حل یک مسئله مشخص</h4>
+            <p>شبیه‌سازی ترافیک، مدیریت بحران یا ارزیابی پروژه‌های عمرانی به‌عنوان نقطه ورود.</p>
+          </div>
+        </li>
+        <li>
+          <span class="step-index">۲</span>
+          <div>
+            <h4>یکپارچه‌سازی داده‌های شهر</h4>
+            <p>اتصال سامانه‌های GIS، ترافیک، خدمات شهری و زیرساخت به یک بستر واحد.</p>
+          </div>
+        </li>
+        <li>
+          <span class="step-index">۳</span>
+          <div>
+            <h4>افزودن موتور هوش مصنوعی</h4>
+            <p>پیش‌بینی چندلایه اثر تصمیم‌ها با انباشت داده و مدل‌های یادگیری‌شده از رخدادهای گذشته.</p>
+          </div>
+        </li>
+        <li>
+          <span class="step-index">۴</span>
+          <div>
+            <h4>دوقلوی دیجیتال کامل شهر</h4>
+            <p>مغز شبیه‌ساز و تصمیم‌یار یکپارچه برای همه حوزه‌های مدیریت شهری.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Business Model -->
+  <section id="business" class="section">
+    <div class="container">
+      <span class="section-tag">مدل کسب‌وکار</span>
+      <h2>ارزشی که با انباشت داده بیشتر می‌شود</h2>
+      <div class="business-grid">
+        <div class="business-card">
+          <h3>فروش B2G</h3>
+          <p>قرارداد مستقیم با شهرداری‌ها و نهادهای مدیریت شهری برای استقرار پلتفرم.</p>
+        </div>
+        <div class="business-card">
+          <h3>اشتراک سازمانی</h3>
+          <p>دسترسی مستمر سازمان‌های شهری به داشبورد شبیه‌سازی و تحلیل‌های زنده.</p>
+        </div>
+        <div class="business-card">
+          <h3>پروژه‌های تخصصی</h3>
+          <p>شبیه‌سازی سفارشی برای پروژه‌های خاص عمرانی، ترافیکی یا مدیریت بحران.</p>
+        </div>
+        <div class="business-card">
+          <h3>خدمات تحلیلی</h3>
+          <p>گزارش‌ها و توصیه‌های تصمیم‌یاری مبتنی بر داده انباشته‌شده روی بستر.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA / Contact -->
+  <section id="contact" class="section cta-section">
+    <div class="container cta-inner">
+      <h2>مغز شبیه‌ساز شهر خودتان را همین حالا بسازید</h2>
+      <p>برای دمو اختصاصی، همکاری پایلوت یا معرفی بیشتر پلتفرم نبض‌شهر با ما در تماس باشید.</p>
+      <form class="contact-form" onsubmit="return false;">
+        <input type="text" placeholder="نام و سازمان" required>
+        <input type="email" placeholder="ایمیل" required>
+        <button type="submit" class="btn btn-primary">درخواست دمو</button>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="logo">
+      <span class="logo-mark">
+        <svg viewBox="0 0 48 48" width="26" height="26" aria-hidden="true">
+          <path d="M4 26H14L18 12L26 38L30 20L34 26H44" stroke="#22d3ee" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span class="logo-text">نبض‌<b>شهر</b></span>
+    </div>
+    <p class="footer-note">© تمام حقوق محفوظ است — پلتفرم دوقلوی دیجیتال و شبیه‌ساز هوشمند تصمیم‌گیری شهری</p>
+  </div>
+</footer>
+
+<script src="assets/js/script.js"></script>
+</body>
+</html>
