@@ -3,12 +3,18 @@ const navToggle = document.getElementById("navToggle");
 const mainNav = document.querySelector(".main-nav");
 
 if (navToggle && mainNav) {
+  navToggle.setAttribute("aria-expanded", "false");
+
   navToggle.addEventListener("click", () => {
-    mainNav.classList.toggle("nav-open");
+    const isOpen = mainNav.classList.toggle("nav-open");
+    navToggle.setAttribute("aria-expanded", String(isOpen));
   });
 
   mainNav.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => mainNav.classList.remove("nav-open"));
+    link.addEventListener("click", () => {
+      mainNav.classList.remove("nav-open");
+      navToggle.setAttribute("aria-expanded", "false");
+    });
   });
 }
 
