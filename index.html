@@ -35,6 +35,7 @@
     <nav class="main-nav">
       <a href="#problem">مسئله</a>
       <a href="#solution">راه‌حل</a>
+      <a href="#workflow">فرایند کار</a>
       <a href="#features">قابلیت‌ها</a>
       <a href="#roadmap">مسیر توسعه</a>
       <a href="#business">مدل کسب‌وکار</a>
@@ -69,9 +70,13 @@
         <div class="stat"><span class="stat-num">۰</span><span class="stat-label">تصمیم کور و بدون داده</span></div>
       </div>
     </div>
-    <div class="hero-visual" aria-hidden="true">
+    <div class="hero-visual" aria-label="نمای مفهومی شهر متصل و شبیه‌سازی زنده">
+      <div class="visual-bar">
+        <span class="live-status"><i></i>داده‌های شهر در حال همگام‌سازی</span>
+        <span>به‌روزرسانی: همین حالا</span>
+      </div>
       <div class="pulse-city">
-        <svg viewBox="0 0 600 220" preserveAspectRatio="none">
+        <svg viewBox="0 0 600 220" preserveAspectRatio="none" aria-hidden="true">
           <polyline class="pulse-line" points="0,150 60,150 90,60 120,190 150,110 180,150 260,150 290,40 320,200 350,150 430,150 460,90 490,150 600,150"/>
           <g class="city-blocks">
             <rect x="20" y="160" width="18" height="40"/>
@@ -83,6 +88,11 @@
             <rect x="530" y="120" width="18" height="80"/>
           </g>
         </svg>
+      </div>
+      <div class="signal-summary">
+        <div><span>سناریوی فعال</span><strong>تغییر مسیر محور مرکزی</strong></div>
+        <div><span>دامنه اثر</span><strong>ترافیک · خدمات · انرژی</strong></div>
+        <div><span>سطح اطمینان</span><strong class="confidence">۹۲٪</strong></div>
       </div>
     </div>
   </section>
@@ -137,6 +147,38 @@
             پیش‌بینی آب‌گرفتگی و تحلیل تاب‌آوری زیرساخت.
           </p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Workflow -->
+  <section id="workflow" class="section workflow-section">
+    <div class="container">
+      <span class="section-tag">فرایند تصمیم‌سازی</span>
+      <h2>هر تصمیم از داده تا نتیجه، یک مسیر روشن دارد</h2>
+      <p class="section-lead">به‌جای تکیه بر گزارش‌های پراکنده، مسئله را تعریف کنید، سناریوها را مقایسه کنید و تصمیم قابل دفاع بگیرید.</p>
+      <div class="workflow-grid">
+        <article class="workflow-step">
+          <span class="workflow-index">۱</span>
+          <div class="workflow-icon">◌</div>
+          <h3>اتصال داده‌ها</h3>
+          <p>منابع موجود شهر، از GIS تا ترافیک و خدمات، در یک نمای واحد جمع می‌شوند.</p>
+          <span class="workflow-note">ورودی: داده‌های موجود شهر</span>
+        </article>
+        <article class="workflow-step workflow-step-active">
+          <span class="workflow-index">۲</span>
+          <div class="workflow-icon">⌁</div>
+          <h3>ساخت سناریو</h3>
+          <p>یک تغییر پیشنهادی را تعریف کنید و فرض‌های اجرایی آن را شفاف سازید.</p>
+          <span class="workflow-note">هسته: شبیه‌سازی چندلایه</span>
+        </article>
+        <article class="workflow-step">
+          <span class="workflow-index">۳</span>
+          <div class="workflow-icon">✓</div>
+          <h3>انتخاب آگاهانه</h3>
+          <p>اثرات، ریسک‌ها و گزینه‌های جایگزین را پیش از اجرا کنار هم ببینید.</p>
+          <span class="workflow-note">خروجی: تصمیم قابل دفاع</span>
+        </article>
       </div>
     </div>
   </section>

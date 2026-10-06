@@ -18,6 +18,28 @@ if (navToggle && mainNav) {
   });
 }
 
+// مشخص‌کردن بخش فعال در منو
+if (mainNav && "IntersectionObserver" in window) {
+  const links = new Map(
+    [...mainNav.querySelectorAll('a[href^="#"]')].map((a) => [a.getAttribute("href").slice(1), a])
+  );
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        links.forEach((a) => a.removeAttribute("aria-current"));
+        const active = links.get(entry.target.id);
+        if (active) active.setAttribute("aria-current", "true");
+      });
+    },
+    { rootMargin: "-40% 0px -55% 0px" }
+  );
+  links.forEach((_, id) => {
+    const section = document.getElementById(id);
+    if (section) observer.observe(section);
+  });
+}
+
 // فرم تماس (فعلاً بدون backend — فقط پیام تایید)
 const contactForm = document.querySelector(".contact-form");
 if (contactForm) {
