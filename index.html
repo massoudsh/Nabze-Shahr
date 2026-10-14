@@ -36,6 +36,7 @@
       <a href="#problem">مسئله</a>
       <a href="#solution">راه‌حل</a>
       <a href="#simulator">شبیه‌ساز</a>
+      <a href="#dashboard">داشبورد</a>
       <a href="#workflow">فرایند کار</a>
       <a href="#features">قابلیت‌ها</a>
       <a href="#roadmap">مسیر توسعه</a>
@@ -193,6 +194,41 @@
           </div>
           <div class="impact-decision"><span>جمع‌بندی تصمیم</span><strong id="decisionValue">قابل بررسی برای اجرای آزمایشی</strong></div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Operations dashboard -->
+  <section id="dashboard" class="section dashboard-section">
+    <div class="container">
+      <span class="section-tag">نمای عملیات شهر</span>
+      <h2>شاخص‌های کلیدی شهر را در یک نگاه پایش کنید</h2>
+      <p class="section-lead">داشبورد هر شهر بر مبنای منابع داده‌ی متصل آن پیکربندی می‌شود؛ این نما نمونه‌ای از اولویت‌بندی سیگنال‌های عملیاتی است.</p>
+      <div class="city-dashboard">
+        <div class="dashboard-toolbar">
+          <div><span class="control-label">داشبورد عملیاتی</span><strong>نمای کلی شهر</strong></div>
+          <div class="dashboard-periods" role="group" aria-label="بازه زمانی">
+            <button type="button" class="period-button is-selected" data-period="now">اکنون</button>
+            <button type="button" class="period-button" data-period="today">امروز</button>
+            <button type="button" class="period-button" data-period="week">هفته</button>
+          </div>
+        </div>
+        <div class="dashboard-layout" aria-live="polite">
+          <div class="dashboard-overview">
+            <div class="overview-header"><span class="control-label" id="dashboardPeriod">وضعیت اکنون</span><span class="live-status"><i></i>دریافت داده فعال</span></div>
+            <div class="city-signal-visual" aria-hidden="true">
+              <div class="signal-path signal-path-one"></div><div class="signal-path signal-path-two"></div><div class="signal-node node-one"></div><div class="signal-node node-two"></div><div class="signal-node node-three"></div>
+              <span class="visual-label label-one">مرکز شهر</span><span class="visual-label label-two">کریدور شمالی</span>
+            </div>
+            <div class="overview-summary"><span>اولویت عملیاتی</span><strong id="priorityValue">پایش ترافیک کریدور شمالی</strong><small id="priorityNote">سطح توجه: متوسط</small></div>
+          </div>
+          <div class="dashboard-metrics">
+            <article class="dashboard-metric"><div class="metric-icon">↝</div><div><span>جریان ترافیک</span><strong id="trafficStatus">روان</strong><small id="trafficDetail">۸۶٪ ظرفیت شبکه</small></div><b class="metric-state good" id="trafficState">پایدار</b></article>
+            <article class="dashboard-metric"><div class="metric-icon">ϟ</div><div><span>مصرف انرژی</span><strong id="energyStatus">متوازن</strong><small id="energyDetail">۲٪ کمتر از الگوی مرجع</small></div><b class="metric-state good" id="energyState">بهینه</b></article>
+            <article class="dashboard-metric"><div class="metric-icon">!</div><div><span>رخدادهای شهری</span><strong id="incidentStatus">۳ مورد</strong><small id="incidentDetail">بدون رخداد بحرانی</small></div><b class="metric-state watch" id="incidentState">پایش</b></article>
+          </div>
+        </div>
+        <p class="dashboard-disclaimer">داده‌ها و وضعیت‌های این بخش نمایشی هستند و برای نشان‌دادن ساختار داشبورد نمایش داده می‌شوند.</p>
       </div>
     </div>
   </section>

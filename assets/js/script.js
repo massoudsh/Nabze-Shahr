@@ -95,6 +95,59 @@ scenarioOptions.forEach((option) => {
   });
 });
 
+// بازه‌های نمایشی داشبورد
+const periodButtons = document.querySelectorAll(".period-button");
+const dashboardElements = {
+  period: document.getElementById("dashboardPeriod"),
+  priority: document.getElementById("priorityValue"),
+  priorityNote: document.getElementById("priorityNote"),
+  trafficStatus: document.getElementById("trafficStatus"),
+  trafficDetail: document.getElementById("trafficDetail"),
+  trafficState: document.getElementById("trafficState"),
+  energyStatus: document.getElementById("energyStatus"),
+  energyDetail: document.getElementById("energyDetail"),
+  energyState: document.getElementById("energyState"),
+  incidentStatus: document.getElementById("incidentStatus"),
+  incidentDetail: document.getElementById("incidentDetail"),
+  incidentState: document.getElementById("incidentState")
+};
+const dashboardPeriods = {
+  now: {
+    period: "وضعیت اکنون", priority: "پایش ترافیک کریدور شمالی", priorityNote: "سطح توجه: متوسط",
+    trafficStatus: "روان", trafficDetail: "۸۶٪ ظرفیت شبکه", trafficState: "پایدار", trafficClass: "good",
+    energyStatus: "متوازن", energyDetail: "۲٪ کمتر از الگوی مرجع", energyState: "بهینه", energyClass: "good",
+    incidentStatus: "۳ مورد", incidentDetail: "بدون رخداد بحرانی", incidentState: "پایش", incidentClass: "watch"
+  },
+  today: {
+    period: "جمع‌بندی امروز", priority: "رسیدگی به تراکم عصرگاهی مرکز شهر", priorityNote: "سطح توجه: بالا",
+    trafficStatus: "متغیر", trafficDetail: "۷۹٪ ظرفیت میانگین", trafficState: "توجه", trafficClass: "watch",
+    energyStatus: "متعادل", energyDetail: "۱٪ بیشتر از الگوی مرجع", energyState: "پایش", energyClass: "watch",
+    incidentStatus: "۹ مورد", incidentDetail: "۱ مورد در حال رسیدگی", incidentState: "فعال", incidentClass: "watch"
+  },
+  week: {
+    period: "روند هفتگی", priority: "بهینه‌سازی الگوی تردد ساعات اوج", priorityNote: "فرصت بهبود: ۳ محور",
+    trafficStatus: "رو به بهبود", trafficDetail: "۶٪ کاهش تأخیر نسبت به هفته قبل", trafficState: "مثبت", trafficClass: "good",
+    energyStatus: "بهینه", energyDetail: "۴٪ کاهش نسبت به هفته قبل", energyState: "مثبت", energyClass: "good",
+    incidentStatus: "۲۱ مورد", incidentDetail: "۸۷٪ حل‌شده در زمان هدف", incidentState: "کنترل‌شده", incidentClass: "good"
+  }
+};
+
+periodButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const period = dashboardPeriods[button.dataset.period];
+    if (!period) return;
+
+    periodButtons.forEach((item) => item.classList.toggle("is-selected", item === button));
+    Object.entries(period).forEach(([key, value]) => {
+      if (!key.endsWith("Class") && dashboardElements[key]) dashboardElements[key].textContent = value;
+    });
+    ["traffic", "energy", "incident"].forEach((metric) => {
+      const state = dashboardElements[`${metric}State`];
+      state.className = `metric-state ${period[`${metric}Class`]}`;
+    });
+  });
+});
+
 // فرم تماس (فعلاً بدون backend — فقط پیام تایید)
 const contactForm = document.querySelector(".contact-form");
 if (contactForm) {
