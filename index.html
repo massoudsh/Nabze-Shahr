@@ -35,6 +35,7 @@
     <nav class="main-nav">
       <a href="#problem">مسئله</a>
       <a href="#solution">راه‌حل</a>
+      <a href="#simulator">شبیه‌ساز</a>
       <a href="#workflow">فرایند کار</a>
       <a href="#features">قابلیت‌ها</a>
       <a href="#roadmap">مسیر توسعه</a>
@@ -146,6 +147,51 @@
             و اثر سناریوهای مختلف را پیش از اجرا پیش‌بینی می‌کند؛ از اثر یک پروژه جدید بر ترافیک تا
             پیش‌بینی آب‌گرفتگی و تحلیل تاب‌آوری زیرساخت.
           </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scenario simulator -->
+  <section id="simulator" class="section simulator-section">
+    <div class="container">
+      <span class="section-tag">نمونه تعاملی</span>
+      <h2>سناریو را انتخاب کنید، اثرهای آن را مقایسه کنید</h2>
+      <p class="section-lead">این پیش‌نمایش، شیوه‌ی تبدیل یک تصمیم شهری به شاخص‌های قابل بررسی را نشان می‌دهد؛ نتایج واقعی با داده‌های هر شهر محاسبه می‌شوند.</p>
+      <div class="scenario-builder">
+        <div class="scenario-controls">
+          <div class="scenario-header">
+            <div>
+              <span class="control-label">نوع مداخله</span>
+              <h3 id="scenarioName">تغییر مسیر محور مرکزی</h3>
+            </div>
+            <span class="demo-badge">نمونه نمایشی</span>
+          </div>
+          <div class="scenario-options" role="radiogroup" aria-label="انتخاب سناریو">
+            <button type="button" class="scenario-option is-selected" role="radio" aria-checked="true" data-scenario="traffic">تغییر مسیر ترافیک</button>
+            <button type="button" class="scenario-option" role="radio" aria-checked="false" data-scenario="construction">پروژه عمرانی</button>
+            <button type="button" class="scenario-option" role="radio" aria-checked="false" data-scenario="crisis">مدیریت بحران</button>
+          </div>
+          <div class="scenario-scope">
+            <span class="control-label">محدوده‌ی تحلیل</span>
+            <strong id="scenarioScope">منطقه ۶ · ساعات اوج تردد</strong>
+          </div>
+          <p class="scenario-hint">برای تحلیل عملیاتی، داده‌های محلی و محدودیت‌های اجرایی هر شهر به سناریو افزوده می‌شود.</p>
+        </div>
+        <div class="impact-panel" aria-live="polite">
+          <div class="impact-panel-header">
+            <div>
+              <span class="control-label">برآورد اثر سناریو</span>
+              <h3>پیش از اجرا بررسی کنید</h3>
+            </div>
+            <span class="model-status"><i></i>مدل آماده تحلیل</span>
+          </div>
+          <div class="impact-metrics">
+            <div class="impact-metric"><span>زمان سفر</span><strong id="travelValue">−۱۲٪</strong><small id="travelNote">بهبود در محور هدف</small></div>
+            <div class="impact-metric"><span>دسترسی خدمات</span><strong id="serviceValue">+۸٪</strong><small id="serviceNote">پوشش مسیرهای اضطراری</small></div>
+            <div class="impact-metric"><span>مصرف انرژی</span><strong id="energyValue">−۵٪</strong><small id="energyNote">کاهش توقف خودروها</small></div>
+          </div>
+          <div class="impact-decision"><span>جمع‌بندی تصمیم</span><strong id="decisionValue">قابل بررسی برای اجرای آزمایشی</strong></div>
         </div>
       </div>
     </div>

@@ -40,6 +40,61 @@ if (mainNav && "IntersectionObserver" in window) {
   });
 }
 
+// شبیه‌ساز سناریوی نمایشی
+const scenarioOptions = document.querySelectorAll(".scenario-option");
+const scenarioElements = {
+  name: document.getElementById("scenarioName"),
+  scope: document.getElementById("scenarioScope"),
+  travelValue: document.getElementById("travelValue"),
+  travelNote: document.getElementById("travelNote"),
+  serviceValue: document.getElementById("serviceValue"),
+  serviceNote: document.getElementById("serviceNote"),
+  energyValue: document.getElementById("energyValue"),
+  energyNote: document.getElementById("energyNote"),
+  decision: document.getElementById("decisionValue")
+};
+const scenarios = {
+  traffic: {
+    name: "تغییر مسیر محور مرکزی",
+    scope: "منطقه ۶ · ساعات اوج تردد",
+    travelValue: "−۱۲٪", travelNote: "بهبود در محور هدف",
+    serviceValue: "+۸٪", serviceNote: "پوشش مسیرهای اضطراری",
+    energyValue: "−۵٪", energyNote: "کاهش توقف خودروها",
+    decision: "قابل بررسی برای اجرای آزمایشی"
+  },
+  construction: {
+    name: "بهسازی تقاطع و پروژه عمرانی",
+    scope: "منطقه ۳ · برنامه اجرایی ۸ هفته‌ای",
+    travelValue: "+۷٪", travelNote: "افزایش موقت زمان سفر",
+    serviceValue: "−۳٪", serviceNote: "نیازمند مسیر جایگزین خدمات",
+    energyValue: "+۲٪", energyNote: "مصرف بالاتر در مسیرهای فرعی",
+    decision: "نیازمند برنامه کاهش اثر اجرا"
+  },
+  crisis: {
+    name: "واکنش به آب‌گرفتگی محدوده‌ای",
+    scope: "حوضه جنوبی · بارش شدید",
+    travelValue: "−۱۸٪", travelNote: "کاهش انسداد با مسیرهای جایگزین",
+    serviceValue: "+۱۴٪", serviceNote: "دسترسی سریع‌تر امداد",
+    energyValue: "−۴٪", energyNote: "بهینه‌سازی عملیات میدانی",
+    decision: "اولویت بالا برای آمادگی عملیاتی"
+  }
+};
+
+scenarioOptions.forEach((option) => {
+  option.addEventListener("click", () => {
+    const scenario = scenarios[option.dataset.scenario];
+    if (!scenario) return;
+
+    scenarioOptions.forEach((item) => {
+      item.classList.toggle("is-selected", item === option);
+      item.setAttribute("aria-checked", String(item === option));
+    });
+    Object.entries(scenario).forEach(([key, value]) => {
+      if (scenarioElements[key]) scenarioElements[key].textContent = value;
+    });
+  });
+});
+
 // فرم تماس (فعلاً بدون backend — فقط پیام تایید)
 const contactForm = document.querySelector(".contact-form");
 if (contactForm) {
