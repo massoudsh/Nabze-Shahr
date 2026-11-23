@@ -302,6 +302,18 @@ button, input { font: inherit; }
 .differentiator-card p { color: var(--text-muted); font-size: .77rem; line-height: 1.95; }
 .differentiator-proof { display: block; margin-top: auto; padding-top: 13px; border-top: 1px solid var(--border); color: var(--text-subtle); font-size: .64rem; line-height: 1.7; }
 
+/* Trust layer */
+.trust-section { border-top: 1px solid var(--border); background: var(--bg-soft); }
+.trust-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.trust-card { padding: 24px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+.trust-card h3 { margin-bottom: 16px; font-size: .97rem; color: var(--accent-strong); }
+.trust-card dl { display: grid; gap: 11px; margin: 0; }
+.trust-card dl > div { display: grid; grid-template-columns: 9.5rem 1fr; gap: 12px; align-items: start; padding-top: 11px; border-top: 1px solid var(--border); }
+.trust-card dl > div:first-child { padding-top: 0; border-top: 0; }
+.trust-card dt { color: var(--text-muted); font-size: .78rem; font-weight: 700; }
+.trust-card dd { margin: 0; color: var(--text-muted); font-size: .78rem; line-height: 1.95; }
+.trust-note { margin-top: 16px; padding: 13px 16px; border: 1px dashed var(--border-strong); border-radius: var(--radius-sm); color: var(--text-muted); font-size: .76rem; line-height: 1.95; }
+
 /* Pilot program */
 .pilot-section { background: linear-gradient(180deg, var(--bg), var(--bg-soft)); }
 .pilot-heading { display: flex; align-items: end; justify-content: space-between; gap: 32px; margin-bottom: 38px; }
@@ -412,6 +424,7 @@ button, input { font: inherit; }
   .period-button { flex: 1; }
   .dashboard-overview, .dashboard-metrics { padding: 18px; }
   .dashboard-metric { grid-template-columns: 34px 1fr auto; }
+  .trust-grid { grid-template-columns: 1fr; }
   .pilot-heading { align-items: flex-start; flex-direction: column; gap: 12px; }
   .pilot-heading p { max-width: 620px; }
   .differentiator-grid { grid-template-columns: repeat(2, 1fr); }
@@ -436,6 +449,7 @@ button, input { font: inherit; }
   .loop-diagram, .features-grid, .roadmap-steps, .business-grid, .differentiator-grid { grid-template-columns: 1fr; }
   .loop-item { min-height: 0; }
   .form-row { grid-template-columns: 1fr; }
+  .trust-card dl > div { grid-template-columns: 1fr; gap: 2px; }
   .pulse-city svg { height: 155px; }
   .visual-bar { align-items: flex-start; flex-direction: column; gap: 3px; }
   .footer-inner { align-items: flex-start; flex-direction: column; }
