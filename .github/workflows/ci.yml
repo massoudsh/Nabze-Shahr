@@ -1,0 +1,100 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  static-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: JavaScript syntax
+        run: |
+          for file in assets/js/*.js; do node --check "$file"; done
+
+      - name: Unit and integration tests
+        run: node --test tests/
+
+      - name: HTML parses
+        run: |
+          python3 - <<'PY'
+          from html.parser import HTMLParser
+          for name in ("index.html", "404.html"):
+              HTMLParser().feed(open(name, encoding="utf-8").read())
+              print(f"{name}: ok")
+          PY
+
+      - name: Anchors resolve
+        run: node scripts/check-anchors.mjs
+
+      - name: Adapter contract
+        run: node scripts/validate-adapter.mjs docs/adapter-example.json
+
+      - name: No stale brand colour
+        run: |
+          if grep -rniE '#22d3ee|#818cf8' index.html 404.html assets/css assets/js; then
+            echo "::error::stale brand colour found; the palette is #9bd451/#c5f477"
+            exit 1
+          fi
+
+      - name: No inline styles in markup
+        run: |
+          if grep -nE '\sstyle="' index.html 404.html; then
+            echo "::error::inline style attribute found; use assets/css/style.css"
+            exit 1
+          fi
+
+      - name: No third-party font CDN
+        run: |
+          if grep -rn 'fonts.googleapis.com\|fonts.gstatic.com' index.html 404.html assets; then
+            echo "::error::external font CDN reference; bundle fonts in assets/fonts"
+            exit 1
+          fi
+
+  docker-smoke:
+    runs-on: ubuntu-latest
+    needs: static-checks
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build image
+        run: docker build -t nabzshahr:ci .
+
+      - name: Run container and probe routes
+        run: |
+          set -euo pipefail
+          docker run -d --name nabz -p 8080:8080 nabzshahr:ci
+          for attempt in $(seq 1 30); do
+            if curl -fsS -o /dev/null http://localhost:8080/; then break; fi
+            sleep 1
+          done
+
+          echo "root: $(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/)"
+          echo "robots: $(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/robots.txt)"
+          echo "sitemap: $(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/sitemap.xml)"
+          echo "font: $(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/assets/fonts/Vazirmatn-Regular.woff2)"
+          echo "data: $(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/assets/data/scenarios.json)"
+
+          test "$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/)" = "200"
+          test "$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/robots.txt)" = "200"
+          test "$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/sitemap.xml)" = "200"
+
+          status="$(curl -s -o /tmp/404.html -w '%{http_code}' http://localhost:8080/definitely-missing)"
+          echo "missing page: $status"
+          test "$status" = "404"
+          grep -q 'خطای ۴۰۴' /tmp/404.html
+          echo "Persian 404 page served correctly"
+
+      - name: Stop container
+        if: always()
+        run: docker rm -f nabz || true

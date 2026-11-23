@@ -1,5 +1,7 @@
 # نبض‌شهر (NabzShahr)
 
+[![CI](https://github.com/massoudsh/Nabze-Shahr/actions/workflows/ci.yml/badge.svg)](https://github.com/massoudsh/Nabze-Shahr/actions/workflows/ci.yml)
+
 پلتفرم **دوقلوی دیجیتال شهری** و **موتور شبیه‌سازی/تصمیم‌یار هوشمند** برای مدیران شهری —
 پیش از اجرای هر تصمیم (بستن خیابان، پروژه عمرانی، سیاست شهری) اثر آن روی ترافیک، انرژی،
 زیرساخت و رضایت شهروندان را از قبل ببینید.
@@ -125,6 +127,20 @@ node scripts/validate-adapter.mjs docs/adapter-example.json
 ```
 
 اسکریپت idempotent است و عنوان‌های موجود را رد می‌کند.
+
+## بررسی‌های محلی
+
+بدون نیاز به نصب وابستگی، همین بررسی‌هایی که CI اجرا می‌کند را لوکال اجرا کنید:
+
+```bash
+node --test tests/                                  # قالب‌بندی، فرم، a11y، داده، SEO، انتشار
+node scripts/check-anchors.mjs                      # لینک‌های درون‌صفحه‌ای
+node scripts/validate-adapter.mjs docs/adapter-example.json
+node --check assets/js/script.js
+```
+
+خطای ۴۰۴ فارسی در `404.html` است و Nginx آن را با کد وضعیت ۴۰۴ برمی‌گرداند
+(`nginx/default.conf`).
 
 ## پیش از انتشار
 
