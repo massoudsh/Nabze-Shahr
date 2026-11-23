@@ -1,5 +1,6 @@
 import { formatNumber, formatPercent } from "./format.js";
 import { validateLead } from "./lead.js";
+import { loadScenarios, loadDashboard } from "./data.js";
 
 /**
  * Render a demo metric whose number is formatted at render time.
@@ -95,49 +96,45 @@ const scenarioElements = {
   energyNote: document.getElementById("energyNote"),
   decision: document.getElementById("decisionValue")
 };
-const scenarios = {
-  traffic: {
-    name: "تغییر مسیر محور مرکزی",
-    scope: fill("منطقه {} · ساعات اوج تردد", 6),
-    travel: { delta: -12 }, travelNote: "بهبود در محور هدف",
-    service: { delta: 8 }, serviceNote: "پوشش مسیرهای اضطراری",
-    energy: { delta: -5 }, energyNote: "کاهش توقف خودروها",
-    decision: "قابل بررسی برای اجرای آزمایشی"
-  },
-  construction: {
-    name: "بهسازی تقاطع و پروژه عمرانی",
-    scope: fill("منطقه {} · برنامه اجرایی {} هفته‌ای", 3, 8),
-    travel: { delta: 7 }, travelNote: "افزایش موقت زمان سفر",
-    service: { delta: -3 }, serviceNote: "نیازمند مسیر جایگزین خدمات",
-    energy: { delta: 2 }, energyNote: "مصرف بالاتر در مسیرهای فرعی",
-    decision: "نیازمند برنامه کاهش اثر اجرا"
-  },
-  crisis: {
-    name: "واکنش به آب‌گرفتگی محدوده‌ای",
-    scope: "حوضه جنوبی · بارش شدید",
-    travel: { delta: -18 }, travelNote: "کاهش انسداد با مسیرهای جایگزین",
-    service: { delta: 14 }, serviceNote: "دسترسی سریع‌تر امداد",
-    energy: { delta: -4 }, energyNote: "بهینه‌سازی عملیات میدانی",
-    decision: "اولویت بالا برای آمادگی عملیاتی"
-  }
+let scenarios = {};
+let dashboardPeriods = {};
+
+// بازه‌های نمایشی داشبورد
+const periodButtons = document.querySelectorAll(".period-button");
+const dashboardElements = {
+  period: document.getElementById("dashboardPeriod"),
+  priority: document.getElementById("priorityValue"),
+  priorityNote: document.getElementById("priorityNote"),
+  trafficStatus: document.getElementById("trafficStatus"),
+  trafficDetail: document.getElementById("trafficDetail"),
+  trafficState: document.getElementById("trafficState"),
+  energyStatus: document.getElementById("energyStatus"),
+  energyDetail: document.getElementById("energyDetail"),
+  energyState: document.getElementById("energyState"),
+  incidentStatus: document.getElementById("incidentStatus"),
+  incidentDetail: document.getElementById("incidentDetail"),
+  incidentState: document.getElementById("incidentState")
 };
 
-scenarioOptions.forEach((option) => {
-  option.addEventListener("click", () => {
-    selectScenario(option);
-  });
-});
+const dashboardMetrics = ["traffic", "energy", "incident"];
 
-/**
- * Announce a single short sentence to screen readers.
- * @param {string} message
- */
+/** Announce a single short sentence to screen readers. */
 function announce(message) {
   const status = document.getElementById("demoStatus");
   if (status) status.textContent = message;
 }
 
-function selectScenario(option) {
+/** Render a template that may carry numeric placeholders. */
+function renderText(field) {
+  if (typeof field === "string") return field;
+  if (!field) return "";
+  if (Array.isArray(field.values) && field.values.length > 0) {
+    return fill(field.template || "", ...field.values);
+  }
+  return field.text ?? field.template ?? "";
+}
+
+function applyScenario(option) {
   const scenario = scenarios[option.dataset.scenario];
   if (!scenario) return;
 
@@ -150,7 +147,7 @@ function selectScenario(option) {
   });
 
   scenarioElements.name.textContent = scenario.name;
-  scenarioElements.scope.textContent = scenario.scope;
+  scenarioElements.scope.textContent = renderText(scenario.scope);
   scenarioElements.travelValue.textContent = renderImpact(scenario.travel);
   scenarioElements.travelNote.textContent = scenario.travelNote;
   scenarioElements.serviceValue.textContent = renderImpact(scenario.service);
@@ -162,8 +159,36 @@ function selectScenario(option) {
   announce(`سناریوی «${scenario.name}» انتخاب شد.`);
 }
 
-// Arrow/Home/End navigation, mirroring a native radio group in RTL.
+function applyPeriod(button) {
+  const period = dashboardPeriods[button.dataset.period];
+  if (!period) return;
+
+  periodButtons.forEach((item) => {
+    const selected = item === button;
+    item.classList.toggle("is-selected", selected);
+    item.setAttribute("aria-pressed", String(selected));
+  });
+
+  dashboardElements.period.textContent = period.period;
+  dashboardElements.priority.textContent = period.priority;
+  dashboardElements.priorityNote.textContent = renderText(period.priorityNote);
+
+  dashboardMetrics.forEach((metric) => {
+    const source = period[metric];
+    if (!source) return;
+    dashboardElements[`${metric}Status`].textContent = renderMetric(source.status);
+    dashboardElements[`${metric}Detail`].textContent = renderMetric(source.detail);
+    dashboardElements[`${metric}State`].textContent = source.state;
+    dashboardElements[`${metric}State`].className = `metric-state ${source.stateClass}`;
+  });
+
+  announce(`بازه زمانی به «${period.period}» تغییر کرد.`);
+}
+
 scenarioOptions.forEach((option, index) => {
+  option.addEventListener("click", () => applyScenario(option));
+
+  // Arrow/Home/End navigation, mirroring a native radio group in RTL.
   option.addEventListener("keydown", (event) => {
     const last = scenarioOptions.length - 1;
     let nextIndex = null;
@@ -186,7 +211,7 @@ scenarioOptions.forEach((option, index) => {
       case " ":
       case "Enter":
         event.preventDefault();
-        selectScenario(option);
+        applyScenario(option);
         return;
       default:
         return;
@@ -194,80 +219,40 @@ scenarioOptions.forEach((option, index) => {
 
     event.preventDefault();
     const next = scenarioOptions[nextIndex];
-    selectScenario(next);
+    applyScenario(next);
     next.focus();
   });
 });
 
-// بازه‌های نمایشی داشبورد
-const periodButtons = document.querySelectorAll(".period-button");
-const dashboardElements = {
-  period: document.getElementById("dashboardPeriod"),
-  priority: document.getElementById("priorityValue"),
-  priorityNote: document.getElementById("priorityNote"),
-  trafficStatus: document.getElementById("trafficStatus"),
-  trafficDetail: document.getElementById("trafficDetail"),
-  trafficState: document.getElementById("trafficState"),
-  energyStatus: document.getElementById("energyStatus"),
-  energyDetail: document.getElementById("energyDetail"),
-  energyState: document.getElementById("energyState"),
-  incidentStatus: document.getElementById("incidentStatus"),
-  incidentDetail: document.getElementById("incidentDetail"),
-  incidentState: document.getElementById("incidentState")
-};
-const dashboardPeriods = {
-  now: {
-    period: "وضعیت اکنون",
-    priority: "پایش ترافیک کریدور شمالی", priorityNote: "سطح توجه: متوسط",
-    traffic: { status: "روان", detail: { percent: 86, text: "ظرفیت شبکه" }, state: "پایدار", stateClass: "good" },
-    energy: { status: "متوازن", detail: { percent: 2, text: "کمتر از الگوی مرجع" }, state: "بهینه", stateClass: "good" },
-    incident: { status: { count: 3, text: "مورد" }, detail: { text: "بدون رخداد بحرانی" }, state: "پایش", stateClass: "watch" }
-  },
-  today: {
-    period: "جمع‌بندی امروز",
-    priority: "رسیدگی به تراکم عصرگاهی مرکز شهر", priorityNote: "سطح توجه: بالا",
-    traffic: { status: "متغیر", detail: { percent: 79, text: "ظرفیت میانگین" }, state: "توجه", stateClass: "watch" },
-    energy: { status: "متعادل", detail: { percent: 1, text: "بیشتر از الگوی مرجع" }, state: "پایش", stateClass: "watch" },
-    incident: { status: { count: 9, text: "مورد" }, detail: { count: 1, text: "مورد در حال رسیدگی" }, state: "فعال", stateClass: "watch" }
-  },
-  week: {
-    period: "روند هفتگی",
-    priority: "بهینه‌سازی الگوی تردد ساعات اوج", priorityNote: fill("فرصت بهبود: {} محور", 3),
-    traffic: { status: "رو به بهبود", detail: { percent: 6, text: "کاهش تأخیر نسبت به هفته قبل" }, state: "مثبت", stateClass: "good" },
-    energy: { status: "بهینه", detail: { percent: 4, text: "کاهش نسبت به هفته قبل" }, state: "مثبت", stateClass: "good" },
-    incident: { status: { count: 21, text: "مورد" }, detail: { percent: 87, text: "حل‌شده در زمان هدف" }, state: "کنترل‌شده", stateClass: "good" }
-  }
-};
-
-const dashboardMetrics = ["traffic", "energy", "incident"];
-
 periodButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const period = dashboardPeriods[button.dataset.period];
-    if (!period) return;
-
-    periodButtons.forEach((item) => {
-      const selected = item === button;
-      item.classList.toggle("is-selected", selected);
-      item.setAttribute("aria-pressed", String(selected));
-    });
-
-    dashboardElements.period.textContent = period.period;
-    dashboardElements.priority.textContent = period.priority;
-    dashboardElements.priorityNote.textContent = period.priorityNote;
-
-    dashboardMetrics.forEach((metric) => {
-      const source = period[metric];
-      const status = typeof source.status === "object" ? renderMetric(source.status) : source.status;
-      dashboardElements[`${metric}Status`].textContent = status;
-      dashboardElements[`${metric}Detail`].textContent = renderMetric(source.detail);
-      dashboardElements[`${metric}State`].textContent = source.state;
-      dashboardElements[`${metric}State`].className = `metric-state ${source.stateClass}`;
-    });
-
-    announce(`بازه زمانی به «${period.period}» تغییر کرد.`);
-  });
+  button.addEventListener("click", () => applyPeriod(button));
 });
+
+/**
+ * Load both documents, then render the default entry of each.
+ * The page keeps its server-rendered text until this resolves.
+ */
+async function initDemoContent() {
+  const [scenarioResult, dashboardResult] = await Promise.all([
+    loadScenarios(),
+    loadDashboard()
+  ]);
+
+  scenarios = scenarioResult.data.items;
+  dashboardPeriods = dashboardResult.data.items;
+
+  const defaultScenario = scenarioOptions.find(
+    (option) => option.dataset.scenario === scenarioResult.data.default
+  );
+  if (defaultScenario) applyScenario(defaultScenario);
+
+  const defaultPeriod = periodButtons.find(
+    (button) => button.dataset.period === dashboardResult.data.default
+  );
+  if (defaultPeriod) applyPeriod(defaultPeriod);
+}
+
+initDemoContent();
 
 // فرم درخواست دمو
 const leadForm = document.getElementById("leadForm");

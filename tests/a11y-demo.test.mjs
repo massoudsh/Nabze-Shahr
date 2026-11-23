@@ -1,6 +1,21 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
+let importCounter = 0;
+const nextImportId = () => `${++importCounter}-${process.pid}`;
+import { readFile } from "node:fs/promises";
+
+/** Wait until the loader has rendered, instead of racing a fixed timer. */
+async function waitForRender(elements, key = "scenarioName") {
+  for (let attempt = 0; attempt < 100; attempt += 1) {
+    const element = elements.get(key);
+    if (element && element.textContent) return;
+    await new Promise((resolve) => setTimeout(resolve, 10));
+  }
+  throw new Error(`timed out waiting for ${key} to render`);
+}
+
+
 /**
  * Drives the scenario radiogroup and period buttons headlessly to verify
  * keyboard support, roving tabindex, aria state, and short announcements.
@@ -73,6 +88,12 @@ async function loadDemo() {
   const mainNav = make("mainNav");
   mainNav.querySelectorAll = () => [];
 
+  // Simulate a served page so the loader takes the fetch path.
+  globalThis.location = { protocol: "http:" };
+  globalThis.fetch = async (url) => ({
+    ok: true,
+    json: async () => JSON.parse(await readFile(new URL(`../${url}`, import.meta.url), "utf8")),
+  });
   globalThis.window = {};
   globalThis.document = {
     getElementById(id) {
@@ -87,7 +108,9 @@ async function loadDemo() {
     },
   };
 
-  await import(`../assets/js/script.js?demo=${Date.now()}`);
+  await import(`../assets/js/script.js?demo=${nextImportId()}`);
+  // Content loads asynchronously; let the loader settle before asserting.
+  await waitForRender(elements);
 
   return {
     aria: (element, name) => element.getAttribute(name),

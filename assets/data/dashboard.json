@@ -1,0 +1,130 @@
+{
+  "default": "now",
+  "items": {
+    "now": {
+      "period": "وضعیت اکنون",
+      "priority": "پایش ترافیک کریدور شمالی",
+      "priorityNote": {
+        "text": "سطح توجه: متوسط"
+      },
+      "traffic": {
+        "status": {
+          "text": "روان"
+        },
+        "detail": {
+          "percent": 86,
+          "text": "ظرفیت شبکه"
+        },
+        "state": "پایدار",
+        "stateClass": "good"
+      },
+      "energy": {
+        "status": {
+          "text": "متوازن"
+        },
+        "detail": {
+          "percent": 2,
+          "text": "کمتر از الگوی مرجع"
+        },
+        "state": "بهینه",
+        "stateClass": "good"
+      },
+      "incident": {
+        "status": {
+          "count": 3,
+          "text": "مورد"
+        },
+        "detail": {
+          "text": "بدون رخداد بحرانی"
+        },
+        "state": "پایش",
+        "stateClass": "watch"
+      }
+    },
+    "today": {
+      "period": "جمع‌بندی امروز",
+      "priority": "رسیدگی به تراکم عصرگاهی مرکز شهر",
+      "priorityNote": {
+        "text": "سطح توجه: بالا"
+      },
+      "traffic": {
+        "status": {
+          "text": "متغیر"
+        },
+        "detail": {
+          "percent": 79,
+          "text": "ظرفیت میانگین"
+        },
+        "state": "توجه",
+        "stateClass": "watch"
+      },
+      "energy": {
+        "status": {
+          "text": "متعادل"
+        },
+        "detail": {
+          "percent": 1,
+          "text": "بیشتر از الگوی مرجع"
+        },
+        "state": "پایش",
+        "stateClass": "watch"
+      },
+      "incident": {
+        "status": {
+          "count": 9,
+          "text": "مورد"
+        },
+        "detail": {
+          "count": 1,
+          "text": "مورد در حال رسیدگی"
+        },
+        "state": "فعال",
+        "stateClass": "watch"
+      }
+    },
+    "week": {
+      "period": "روند هفتگی",
+      "priority": "بهینه‌سازی الگوی تردد ساعات اوج",
+      "priorityNote": {
+        "template": "فرصت بهبود: {} محور",
+        "values": [
+          3
+        ]
+      },
+      "traffic": {
+        "status": {
+          "text": "رو به بهبود"
+        },
+        "detail": {
+          "percent": 6,
+          "text": "کاهش تأخیر نسبت به هفته قبل"
+        },
+        "state": "مثبت",
+        "stateClass": "good"
+      },
+      "energy": {
+        "status": {
+          "text": "بهینه"
+        },
+        "detail": {
+          "percent": 4,
+          "text": "کاهش نسبت به هفته قبل"
+        },
+        "state": "مثبت",
+        "stateClass": "good"
+      },
+      "incident": {
+        "status": {
+          "count": 21,
+          "text": "مورد"
+        },
+        "detail": {
+          "percent": 87,
+          "text": "حل‌شده در زمان هدف"
+        },
+        "state": "کنترل‌شده",
+        "stateClass": "good"
+      }
+    }
+  }
+}

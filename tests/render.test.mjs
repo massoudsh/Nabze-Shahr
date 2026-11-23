@@ -1,6 +1,21 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
+let importCounter = 0;
+const nextImportId = () => `${++importCounter}-${process.pid}`;
+import { readFile } from "node:fs/promises";
+
+/** Wait until the loader has rendered, instead of racing a fixed timer. */
+async function waitForRender(elements, key = "scenarioName") {
+  for (let attempt = 0; attempt < 100; attempt += 1) {
+    const element = elements.get(key);
+    if (element && element.textContent) return;
+    await new Promise((resolve) => setTimeout(resolve, 10));
+  }
+  throw new Error(`timed out waiting for ${key} to render`);
+}
+
+
 /**
  * Loads assets/js/script.js against a minimal DOM stub and returns the
  * registered click handlers so the demo interactions can be driven headlessly.
@@ -75,6 +90,12 @@ async function loadScript() {
     querySelectorAll: () => [navLink],
   };
 
+  // Simulate a served page so the loader takes the fetch path.
+  globalThis.location = { protocol: "http:" };
+  globalThis.fetch = async (url) => ({
+    ok: true,
+    json: async () => JSON.parse(await readFile(new URL(`../${url}`, import.meta.url), "utf8")),
+  });
   globalThis.window = {}; // no IntersectionObserver -> that block is skipped
   globalThis.document = {
     getElementById(id) {
@@ -93,7 +114,8 @@ async function loadScript() {
     },
   };
 
-  await import(`../assets/js/script.js?cachebust=${Date.now()}`);
+  await import(`../assets/js/script.js?cachebust=${nextImportId()}`);
+  await waitForRender(elements);
 
   const click = (group, name) => {
     const handler = handlers[group].get(name);
@@ -104,14 +126,15 @@ async function loadScript() {
   return { click, elements, scenarioOptions, periodButtons };
 }
 
-test("loading the page does not overwrite the server-rendered values", async () => {
+test("after load, the default scenario and period are rendered from data", async () => {
   const { elements } = await loadScript();
-  // script.js resolves the elements but must not write to them until the user
-  // interacts, so the HTML stays the source of truth on first paint.
-  assert.equal(elements.get("scenarioName").textContent, "");
-  assert.equal(elements.get("travelValue").textContent, "");
-  assert.equal(elements.get("dashboardPeriod").textContent, "");
-  assert.equal(elements.get("trafficStatus").textContent, "");
+
+  // The loader resolves, then the default entries are applied — so the DOM
+  // reflects assets/data/*.json rather than staying on static markup.
+  assert.equal(elements.get("scenarioName").textContent, "تغییر مسیر محور مرکزی");
+  assert.equal(elements.get("travelValue").textContent, "−۱۲٪");
+  assert.equal(elements.get("dashboardPeriod").textContent, "وضعیت اکنون");
+  assert.equal(elements.get("trafficStatus").textContent, "روان");
 });
 
 test("each scenario renders the same Persian copy as before the refactor", async () => {

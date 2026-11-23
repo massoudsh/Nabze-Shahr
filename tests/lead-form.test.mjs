@@ -1,6 +1,9 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
+let importCounter = 0;
+const nextImportId = () => `${++importCounter}-${process.pid}`;
+
 /**
  * Headless harness for the lead form: builds the elements `script.js` expects,
  * wires the submit handler, and exposes helpers to fill and submit.
@@ -85,7 +88,7 @@ async function loadLeadForm() {
     querySelectorAll: () => [],
   };
 
-  await import(`../assets/js/script.js?leadform=${Date.now()}`);
+  await import(`../assets/js/script.js?leadform=${nextImportId()}`);
 
   const submit = async () => {
     const handler = listeners.get("leadForm:submit");

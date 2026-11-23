@@ -1,0 +1,70 @@
+{
+  "default": "traffic",
+  "items": {
+    "traffic": {
+      "name": "تغییر مسیر محور مرکزی",
+      "scope": {
+        "template": "منطقه {} · ساعات اوج تردد",
+        "values": [
+          6
+        ]
+      },
+      "travel": {
+        "delta": -12
+      },
+      "travelNote": "بهبود در محور هدف",
+      "service": {
+        "delta": 8
+      },
+      "serviceNote": "پوشش مسیرهای اضطراری",
+      "energy": {
+        "delta": -5
+      },
+      "energyNote": "کاهش توقف خودروها",
+      "decision": "قابل بررسی برای اجرای آزمایشی"
+    },
+    "construction": {
+      "name": "بهسازی تقاطع و پروژه عمرانی",
+      "scope": {
+        "template": "منطقه {} · برنامه اجرایی {} هفته‌ای",
+        "values": [
+          3,
+          8
+        ]
+      },
+      "travel": {
+        "delta": 7
+      },
+      "travelNote": "افزایش موقت زمان سفر",
+      "service": {
+        "delta": -3
+      },
+      "serviceNote": "نیازمند مسیر جایگزین خدمات",
+      "energy": {
+        "delta": 2
+      },
+      "energyNote": "مصرف بالاتر در مسیرهای فرعی",
+      "decision": "نیازمند برنامه کاهش اثر اجرا"
+    },
+    "crisis": {
+      "name": "واکنش به آب‌گرفتگی محدوده‌ای",
+      "scope": {
+        "template": "حوضه جنوبی · بارش شدید",
+        "values": []
+      },
+      "travel": {
+        "delta": -18
+      },
+      "travelNote": "کاهش انسداد با مسیرهای جایگزین",
+      "service": {
+        "delta": 14
+      },
+      "serviceNote": "دسترسی سریع‌تر امداد",
+      "energy": {
+        "delta": -4
+      },
+      "energyNote": "بهینه‌سازی عملیات میدانی",
+      "decision": "اولویت بالا برای آمادگی عملیاتی"
+    }
+  }
+}
