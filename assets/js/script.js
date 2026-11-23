@@ -1,3 +1,44 @@
+import { formatNumber, formatPercent } from "./format.js";
+
+/**
+ * Render a demo metric whose number is formatted at render time.
+ *
+ * Data never carries literal Persian digits: each field declares a numeric
+ * value plus the words around it, and this function puts the two together.
+ *
+ * @param {{ percent?: number, count?: number, text?: string }} field
+ * @returns {string}
+ */
+function renderMetric(field) {
+  const text = (field.text || "").trim();
+  if (Number.isFinite(field.percent)) {
+    const percent = formatPercent(field.percent, { showSign: false });
+    return text ? `${percent} ${text}` : percent;
+  }
+  if (Number.isFinite(field.count)) {
+    const count = formatNumber(field.count);
+    return text ? `${count} ${text}` : count;
+  }
+  return text;
+}
+
+/** Render a signed percentage such as the scenario impact values. */
+function renderImpact(field) {
+  return formatPercent(field.delta, { showSign: field.delta > 0 });
+}
+
+/**
+ * Fill `{}` placeholders with Persian-formatted numbers, left to right.
+ *
+ * @param {string} template
+ * @param {...number} values
+ * @returns {string}
+ */
+function fill(template, ...values) {
+  let index = 0;
+  return template.replace(/\{\}/g, () => formatNumber(values[index++]));
+}
+
 // منوی موبایل
 const navToggle = document.getElementById("navToggle");
 const mainNav = document.querySelector(".main-nav");
@@ -56,26 +97,26 @@ const scenarioElements = {
 const scenarios = {
   traffic: {
     name: "تغییر مسیر محور مرکزی",
-    scope: "منطقه ۶ · ساعات اوج تردد",
-    travelValue: "−۱۲٪", travelNote: "بهبود در محور هدف",
-    serviceValue: "+۸٪", serviceNote: "پوشش مسیرهای اضطراری",
-    energyValue: "−۵٪", energyNote: "کاهش توقف خودروها",
+    scope: fill("منطقه {} · ساعات اوج تردد", 6),
+    travel: { delta: -12 }, travelNote: "بهبود در محور هدف",
+    service: { delta: 8 }, serviceNote: "پوشش مسیرهای اضطراری",
+    energy: { delta: -5 }, energyNote: "کاهش توقف خودروها",
     decision: "قابل بررسی برای اجرای آزمایشی"
   },
   construction: {
     name: "بهسازی تقاطع و پروژه عمرانی",
-    scope: "منطقه ۳ · برنامه اجرایی ۸ هفته‌ای",
-    travelValue: "+۷٪", travelNote: "افزایش موقت زمان سفر",
-    serviceValue: "−۳٪", serviceNote: "نیازمند مسیر جایگزین خدمات",
-    energyValue: "+۲٪", energyNote: "مصرف بالاتر در مسیرهای فرعی",
+    scope: fill("منطقه {} · برنامه اجرایی {} هفته‌ای", 3, 8),
+    travel: { delta: 7 }, travelNote: "افزایش موقت زمان سفر",
+    service: { delta: -3 }, serviceNote: "نیازمند مسیر جایگزین خدمات",
+    energy: { delta: 2 }, energyNote: "مصرف بالاتر در مسیرهای فرعی",
     decision: "نیازمند برنامه کاهش اثر اجرا"
   },
   crisis: {
     name: "واکنش به آب‌گرفتگی محدوده‌ای",
     scope: "حوضه جنوبی · بارش شدید",
-    travelValue: "−۱۸٪", travelNote: "کاهش انسداد با مسیرهای جایگزین",
-    serviceValue: "+۱۴٪", serviceNote: "دسترسی سریع‌تر امداد",
-    energyValue: "−۴٪", energyNote: "بهینه‌سازی عملیات میدانی",
+    travel: { delta: -18 }, travelNote: "کاهش انسداد با مسیرهای جایگزین",
+    service: { delta: 14 }, serviceNote: "دسترسی سریع‌تر امداد",
+    energy: { delta: -4 }, energyNote: "بهینه‌سازی عملیات میدانی",
     decision: "اولویت بالا برای آمادگی عملیاتی"
   }
 };
@@ -89,9 +130,16 @@ scenarioOptions.forEach((option) => {
       item.classList.toggle("is-selected", item === option);
       item.setAttribute("aria-checked", String(item === option));
     });
-    Object.entries(scenario).forEach(([key, value]) => {
-      if (scenarioElements[key]) scenarioElements[key].textContent = value;
-    });
+
+    scenarioElements.name.textContent = scenario.name;
+    scenarioElements.scope.textContent = scenario.scope;
+    scenarioElements.travelValue.textContent = renderImpact(scenario.travel);
+    scenarioElements.travelNote.textContent = scenario.travelNote;
+    scenarioElements.serviceValue.textContent = renderImpact(scenario.service);
+    scenarioElements.serviceNote.textContent = scenario.serviceNote;
+    scenarioElements.energyValue.textContent = renderImpact(scenario.energy);
+    scenarioElements.energyNote.textContent = scenario.energyNote;
+    scenarioElements.decision.textContent = scenario.decision;
   });
 });
 
@@ -113,24 +161,29 @@ const dashboardElements = {
 };
 const dashboardPeriods = {
   now: {
-    period: "وضعیت اکنون", priority: "پایش ترافیک کریدور شمالی", priorityNote: "سطح توجه: متوسط",
-    trafficStatus: "روان", trafficDetail: "۸۶٪ ظرفیت شبکه", trafficState: "پایدار", trafficClass: "good",
-    energyStatus: "متوازن", energyDetail: "۲٪ کمتر از الگوی مرجع", energyState: "بهینه", energyClass: "good",
-    incidentStatus: "۳ مورد", incidentDetail: "بدون رخداد بحرانی", incidentState: "پایش", incidentClass: "watch"
+    period: "وضعیت اکنون",
+    priority: "پایش ترافیک کریدور شمالی", priorityNote: "سطح توجه: متوسط",
+    traffic: { status: "روان", detail: { percent: 86, text: "ظرفیت شبکه" }, state: "پایدار", stateClass: "good" },
+    energy: { status: "متوازن", detail: { percent: 2, text: "کمتر از الگوی مرجع" }, state: "بهینه", stateClass: "good" },
+    incident: { status: { count: 3, text: "مورد" }, detail: { text: "بدون رخداد بحرانی" }, state: "پایش", stateClass: "watch" }
   },
   today: {
-    period: "جمع‌بندی امروز", priority: "رسیدگی به تراکم عصرگاهی مرکز شهر", priorityNote: "سطح توجه: بالا",
-    trafficStatus: "متغیر", trafficDetail: "۷۹٪ ظرفیت میانگین", trafficState: "توجه", trafficClass: "watch",
-    energyStatus: "متعادل", energyDetail: "۱٪ بیشتر از الگوی مرجع", energyState: "پایش", energyClass: "watch",
-    incidentStatus: "۹ مورد", incidentDetail: "۱ مورد در حال رسیدگی", incidentState: "فعال", incidentClass: "watch"
+    period: "جمع‌بندی امروز",
+    priority: "رسیدگی به تراکم عصرگاهی مرکز شهر", priorityNote: "سطح توجه: بالا",
+    traffic: { status: "متغیر", detail: { percent: 79, text: "ظرفیت میانگین" }, state: "توجه", stateClass: "watch" },
+    energy: { status: "متعادل", detail: { percent: 1, text: "بیشتر از الگوی مرجع" }, state: "پایش", stateClass: "watch" },
+    incident: { status: { count: 9, text: "مورد" }, detail: { count: 1, text: "مورد در حال رسیدگی" }, state: "فعال", stateClass: "watch" }
   },
   week: {
-    period: "روند هفتگی", priority: "بهینه‌سازی الگوی تردد ساعات اوج", priorityNote: "فرصت بهبود: ۳ محور",
-    trafficStatus: "رو به بهبود", trafficDetail: "۶٪ کاهش تأخیر نسبت به هفته قبل", trafficState: "مثبت", trafficClass: "good",
-    energyStatus: "بهینه", energyDetail: "۴٪ کاهش نسبت به هفته قبل", energyState: "مثبت", energyClass: "good",
-    incidentStatus: "۲۱ مورد", incidentDetail: "۸۷٪ حل‌شده در زمان هدف", incidentState: "کنترل‌شده", incidentClass: "good"
+    period: "روند هفتگی",
+    priority: "بهینه‌سازی الگوی تردد ساعات اوج", priorityNote: fill("فرصت بهبود: {} محور", 3),
+    traffic: { status: "رو به بهبود", detail: { percent: 6, text: "کاهش تأخیر نسبت به هفته قبل" }, state: "مثبت", stateClass: "good" },
+    energy: { status: "بهینه", detail: { percent: 4, text: "کاهش نسبت به هفته قبل" }, state: "مثبت", stateClass: "good" },
+    incident: { status: { count: 21, text: "مورد" }, detail: { percent: 87, text: "حل‌شده در زمان هدف" }, state: "کنترل‌شده", stateClass: "good" }
   }
 };
+
+const dashboardMetrics = ["traffic", "energy", "incident"];
 
 periodButtons.forEach((button) => {
   button.addEventListener("click", () => {
@@ -138,12 +191,17 @@ periodButtons.forEach((button) => {
     if (!period) return;
 
     periodButtons.forEach((item) => item.classList.toggle("is-selected", item === button));
-    Object.entries(period).forEach(([key, value]) => {
-      if (!key.endsWith("Class") && dashboardElements[key]) dashboardElements[key].textContent = value;
-    });
-    ["traffic", "energy", "incident"].forEach((metric) => {
-      const state = dashboardElements[`${metric}State`];
-      state.className = `metric-state ${period[`${metric}Class`]}`;
+    dashboardElements.period.textContent = period.period;
+    dashboardElements.priority.textContent = period.priority;
+    dashboardElements.priorityNote.textContent = period.priorityNote;
+
+    dashboardMetrics.forEach((metric) => {
+      const source = period[metric];
+      const status = typeof source.status === "object" ? renderMetric(source.status) : source.status;
+      dashboardElements[`${metric}Status`].textContent = status;
+      dashboardElements[`${metric}Detail`].textContent = renderMetric(source.detail);
+      dashboardElements[`${metric}State`].textContent = source.state;
+      dashboardElements[`${metric}State`].className = `metric-state ${source.stateClass}`;
     });
   });
 });
