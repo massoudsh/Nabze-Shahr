@@ -95,6 +95,16 @@ assets/js/script.js   منوی موبایل + فرم تماس
 کاتالوگ) و اعدادِ هنوز تعیین‌نشده در [`docs/procurement.md`](./docs/procurement.md)
 نگهداری می‌شود.
 
+## اتصال داده
+
+قرارداد adapter و فهرست منابع داده‌ی شهری ایران (۱۳۷، GIS، ITS، BRT/AVL، تله‌متری،
+گزارش‌دهی ملی) در [`docs/integrations.md`](./docs/integrations.md) است.
+اعتبارسنجی نمونه:
+
+```bash
+node scripts/validate-adapter.mjs docs/adapter-example.json
+```
+
 ## بک‌لاگ ایجنت‌ها
 
 نُه کار مستقل و آماده اجرا برای شکاف‌های بازار ایران در

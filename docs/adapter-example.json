@@ -1,0 +1,28 @@
+{
+  "sourceId": "traffic-counts",
+  "displayName": "شمارش تردد محورهای اصلی",
+  "protocol": "REST",
+  "endpoint": "https://its.internal.example/api/v1/counts",
+  "auth": {
+    "type": "API_KEY",
+    "secretRef": "its-traffic-api-key"
+  },
+  "cadence": {
+    "mode": "interval",
+    "seconds": 300
+  },
+  "fields": [
+    { "name": "corridorId", "type": "string", "pii": false },
+    { "name": "measuredAt", "type": "timestamp", "pii": false },
+    { "name": "vehiclesPerHour", "type": "integer", "unit": "vehicle/h", "pii": false },
+    { "name": "averageSpeed", "type": "number", "unit": "km/h", "pii": false },
+    { "name": "occupancy", "type": "number", "unit": "%", "pii": false },
+    { "name": "location", "type": "geometry", "pii": false }
+  ],
+  "version": "1.0",
+  "healthCheck": {
+    "type": "http",
+    "target": "/health",
+    "expectStatus": 200
+  }
+}
