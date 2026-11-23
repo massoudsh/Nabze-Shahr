@@ -1,4 +1,5 @@
 import { formatNumber, formatPercent } from "./format.js";
+import { validateLead } from "./lead.js";
 
 /**
  * Render a demo metric whose number is formatted at render time.
@@ -206,11 +207,95 @@ periodButtons.forEach((button) => {
   });
 });
 
-// فرم تماس (فعلاً بدون backend — فقط پیام تایید)
-const contactForm = document.querySelector(".contact-form");
-if (contactForm) {
-  contactForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    contactForm.innerHTML = '<p style="color:#22d3ee;font-weight:600;">درخواست شما ثبت شد. به‌زودی با شما تماس می‌گیریم.</p>';
+// فرم درخواست دمو
+const leadForm = document.getElementById("leadForm");
+
+if (leadForm) {
+  const statusElement = document.getElementById("leadStatus");
+  const fieldMap = {
+    fullName: { input: "leadName", error: "leadNameError" },
+    organization: { input: "leadOrganization", error: "leadOrganizationError" },
+    role: { input: "leadRole", error: "leadRoleError" },
+    mobile: { input: "leadMobile", error: "leadMobileError" },
+    email: { input: "leadEmail", error: "leadEmailError" },
+    phone: { input: "leadPhone", error: "leadPhoneError" },
+    message: { input: "leadMessage", error: "leadMessageError" },
+    consent: { input: "leadConsent", error: "leadConsentError" }
+  };
+
+  const showError = (key, message) => {
+    const field = fieldMap[key];
+    if (!field) return;
+    const input = document.getElementById(field.input);
+    const error = document.getElementById(field.error);
+    if (input) input.setAttribute("aria-invalid", String(Boolean(message)));
+    if (error) {
+      error.textContent = message || "";
+      error.hidden = !message;
+    }
+  };
+
+  const clearErrors = () => Object.keys(fieldMap).forEach((key) => showError(key, ""));
+
+  /**
+   * Integration point for a real backend. Replace the body with a `fetch`
+   * call to your endpoint; the contract is documented in docs/lead-payload.md.
+   *
+   * @param {object} payload
+   * @returns {Promise<void>}
+   */
+  const submitLead = (payload) =>
+    new Promise((resolve) => {
+      // Default demo adapter: accepts the payload and resolves immediately.
+      void payload;
+      window.setTimeout(resolve, 400);
+    });
+
+  const readForm = () => ({
+    fullName: document.getElementById("leadName").value,
+    organization: document.getElementById("leadOrganization").value,
+    role: document.getElementById("leadRole").value,
+    mobile: document.getElementById("leadMobile").value,
+    email: document.getElementById("leadEmail").value,
+    phone: document.getElementById("leadPhone").value,
+    message: document.getElementById("leadMessage").value,
+    consent: document.getElementById("leadConsent").checked
+  });
+
+  leadForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    clearErrors();
+    statusElement.textContent = "";
+
+    // Honeypot: a real user never fills this, so pretend everything went fine.
+    if (document.getElementById("leadWebsite").value.trim() !== "") {
+      statusElement.textContent = "درخواست شما ثبت شد.";
+      leadForm.reset();
+      return;
+    }
+
+    const result = validateLead(readForm());
+    if (!result.valid) {
+      Object.entries(result.errors).forEach(([key, message]) => showError(key, message));
+      const invalid = leadForm.querySelector('[aria-invalid="true"]');
+      if (invalid) invalid.focus();
+      return;
+    }
+
+    const submitButton = leadForm.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+    statusElement.textContent = "در حال ثبت درخواست…";
+
+    try {
+      await submitLead(result.payload);
+      leadForm.reset();
+      statusElement.textContent =
+        "درخواست شما ثبت شد. کارشناس ما در روزهای کاری برای هماهنگی جلسه تماس می‌گیرد.";
+    } catch (error) {
+      statusElement.textContent =
+        "ثبت درخواست انجام نشد. لطفاً دوباره تلاش کنید یا با ایمیل info@nabzshahr.ir تماس بگیرید.";
+    } finally {
+      submitButton.disabled = false;
+    }
   });
 }

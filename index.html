@@ -16,13 +16,7 @@
     <a href="#top" class="logo">
       <span class="logo-mark">
         <svg viewBox="0 0 48 48" width="34" height="34" aria-hidden="true">
-          <path d="M4 26H14L18 12L26 38L30 20L34 26H44" stroke="url(#pulseGrad)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-          <defs>
-            <linearGradient id="pulseGrad" x1="0" y1="0" x2="48" y2="0">
-              <stop offset="0" stop-color="#22d3ee"/>
-              <stop offset="1" stop-color="#818cf8"/>
-            </linearGradient>
-          </defs>
+          <path d="M4 26H14L18 12L26 38L30 20L34 26H44" stroke="#9bd451" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </span>
       <span class="logo-text">نبض‌<b>شهر</b></span>
@@ -466,10 +460,73 @@
     <div class="container cta-inner">
       <h2>مغز شبیه‌ساز شهر خودتان را همین حالا بسازید</h2>
       <p>برای دمو اختصاصی، همکاری پایلوت یا معرفی بیشتر پلتفرم نبض‌شهر با ما در تماس باشید.</p>
-      <form class="contact-form" onsubmit="return false;">
-        <input type="text" placeholder="نام و سازمان" required>
-        <input type="email" placeholder="ایمیل" required>
+      <form class="contact-form" id="leadForm" novalidate>
+        <noscript>
+          <p class="form-noscript">برای ثبت درخواست، لطفاً با ایمیل <a href="mailto:info@nabzshahr.ir">info@nabzshahr.ir</a> در تماس باشید.</p>
+        </noscript>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label for="leadName">نام و نام خانوادگی</label>
+            <input id="leadName" name="fullName" type="text" autocomplete="name" required aria-describedby="leadNameError">
+            <p class="field-error" id="leadNameError" role="alert" hidden></p>
+          </div>
+          <div class="form-field">
+            <label for="leadOrganization">سازمان</label>
+            <input id="leadOrganization" name="organization" type="text" autocomplete="organization" required aria-describedby="leadOrganizationError">
+            <p class="field-error" id="leadOrganizationError" role="alert" hidden></p>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label for="leadRole">سِمَت</label>
+            <input id="leadRole" name="role" type="text" autocomplete="organization-title" aria-describedby="leadRoleError">
+            <p class="field-error" id="leadRoleError" role="alert" hidden></p>
+          </div>
+          <div class="form-field">
+            <label for="leadMobile">موبایل</label>
+            <input id="leadMobile" name="mobile" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" placeholder="09123456789" required aria-describedby="leadMobileError leadMobileHint">
+            <p class="field-hint" id="leadMobileHint">با پیش‌شماره ۰۹ یا +۹۸ وارد کنید.</p>
+            <p class="field-error" id="leadMobileError" role="alert" hidden></p>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label for="leadEmail">ایمیل سازمانی <span class="field-optional">(اختیاری)</span></label>
+            <input id="leadEmail" name="email" type="email" autocomplete="email" dir="ltr" aria-describedby="leadEmailError">
+            <p class="field-error" id="leadEmailError" role="alert" hidden></p>
+          </div>
+          <div class="form-field">
+            <label for="leadPhone">تلفن ثابت <span class="field-optional">(اختیاری)</span></label>
+            <input id="leadPhone" name="phone" type="tel" autocomplete="tel" dir="ltr" aria-describedby="leadPhoneError">
+            <p class="field-error" id="leadPhoneError" role="alert" hidden></p>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="leadMessage">توضیح کوتاه درباره نیاز شما <span class="field-optional">(اختیاری)</span></label>
+          <textarea id="leadMessage" name="message" rows="3" aria-describedby="leadMessageError"></textarea>
+          <p class="field-error" id="leadMessageError" role="alert" hidden></p>
+        </div>
+
+        <div class="form-honeypot" aria-hidden="true">
+          <label for="leadWebsite">این فیلد را خالی بگذارید</label>
+          <input id="leadWebsite" name="companyWebsite" type="text" tabindex="-1" autocomplete="off">
+        </div>
+
+        <div class="form-field form-consent">
+          <label for="leadConsent" class="consent-label">
+            <input id="leadConsent" name="consent" type="checkbox" required aria-describedby="leadConsentError">
+            <span>موافقم برای بررسی درخواست، کارشناسان نبض‌شهر با من تماس بگیرند.</span>
+          </label>
+          <p class="field-error" id="leadConsentError" role="alert" hidden></p>
+        </div>
+
         <button type="submit" class="btn btn-primary">درخواست دمو</button>
+        <p class="form-next-step">پس از ثبت، کارشناس ما در روزهای کاری برای هماهنگی جلسه تماس می‌گیرد.</p>
+        <p class="form-status" id="leadStatus" role="status" aria-live="polite"></p>
       </form>
     </div>
   </section>
@@ -481,7 +538,7 @@
     <div class="logo">
       <span class="logo-mark">
         <svg viewBox="0 0 48 48" width="26" height="26" aria-hidden="true">
-          <path d="M4 26H14L18 12L26 38L30 20L34 26H44" stroke="#22d3ee" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M4 26H14L18 12L26 38L30 20L34 26H44" stroke="#9bd451" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </span>
       <span class="logo-text">نبض‌<b>شهر</b></span>
