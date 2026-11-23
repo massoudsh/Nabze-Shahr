@@ -1,6 +1,7 @@
 FROM nginxinc/nginx-unprivileged:1.28-alpine
 
 COPY --chown=101:101 index.html /usr/share/nginx/html/index.html
+COPY --chown=101:101 robots.txt sitemap.xml /usr/share/nginx/html/
 COPY --chown=101:101 assets/ /usr/share/nginx/html/assets/
 
 EXPOSE 8080

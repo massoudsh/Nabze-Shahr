@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="نبض‌شهر — دوقلوی دیجیتال شهری">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b0d0f"/>
+      <stop offset="1" stop-color="#111417"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.8" cy="0.1" r="0.7">
+      <stop offset="0" stop-color="#9bd451" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#9bd451" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <!-- Safe area: 80px margins all around. -->
+  <g transform="translate(80,80)">
+    <rect width="44" height="44" rx="10" fill="#151a1c" stroke="#666f76"/>
+    <path d="M6 24h7l3.5-10 7 22 3.5-15 3.5 5h7"
+          fill="none" stroke="#9bd451" stroke-width="4"
+          stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <text x="140" y="112" font-family="Tahoma, sans-serif" font-size="26" font-weight="bold" fill="#f4f2ed">نبض‌شهر</text>
+
+  <text x="80" y="250" font-family="Tahoma, sans-serif" font-size="52" font-weight="bold" fill="#f4f2ed">
+    پیش از اجرا، اثر هر تصمیم شهری را ببینید
+  </text>
+
+  <text x="80" y="315" font-family="Tahoma, sans-serif" font-size="26" fill="#a6aaa8">
+    دوقلوی دیجیتال شهر و موتور شبیه‌سازی تصمیم‌گیری برای مدیران شهری
+  </text>
+
+  <!-- Synthetic city signal, echoing the hero visual. -->
+  <g transform="translate(80,390)">
+    <rect width="1040" height="160" rx="18" fill="#131619" stroke="#666f76"/>
+    <path d="M40 110h120l30-56 40 92 38-44h80"
+          fill="none" stroke="#9bd451" stroke-width="4"
+          stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M400 110h90l24-40 32 64 30-32h80"
+          fill="none" stroke="#9bd451" stroke-width="3" stroke-opacity="0.5"
+          stroke-linecap="round" stroke-linejoin="round"/>
+    <g fill="#1c2024" stroke="#666f76">
+      <rect x="700" y="96" width="14" height="30"/>
+      <rect x="722" y="76" width="14" height="50"/>
+      <rect x="744" y="106" width="14" height="20"/>
+      <rect x="850" y="88" width="14" height="38"/>
+      <rect x="872" y="66" width="14" height="60"/>
+    </g>
+  </g>
+</svg>

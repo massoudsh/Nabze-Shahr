@@ -1,5 +1,7 @@
 **
 !Dockerfile
 !index.html
+!robots.txt
+!sitemap.xml
 !assets/
 !assets/**
