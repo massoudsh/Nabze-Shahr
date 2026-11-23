@@ -42,11 +42,11 @@
   --surface: #171a1d;
   --surface-raised: #1c2024;
   --surface-muted: #131619;
-  --border: #2a3035;
-  --border-strong: #3a4349;
+  --border: #2a3035; /* decorative separators only; controls use --border-strong */
+  --border-strong: #666f76; /* 3.20–3.80:1 on every surface (UI boundary ≥ 3:1) */
   --text: #f4f2ed;
-  --text-muted: #a6aaa8;
-  --text-subtle: #707775;
+  --text-muted: #a6aaa8; /* 6.97–8.28:1 */
+  --text-subtle: #8f9795; /* 5.48–6.52:1 on bg/bg-soft/surface/raised (was #707775, 3.58:1) */
   --accent: #9bd451;
   --accent-strong: #c5f477;
   --accent-soft: rgba(155, 212, 81, 0.12);
@@ -82,6 +82,40 @@ a { color: inherit; text-decoration: none; }
 button, input { font: inherit; }
 
 /* Shared components */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  right: 16px;
+  z-index: 100;
+  padding: 10px 16px;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--accent-strong);
+  font-size: .82rem;
+  font-weight: 700;
+}
+.skip-link:focus { top: 12px; }
+
+/* One visible focus treatment for every interactive element. */
+:focus-visible {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -197,7 +231,7 @@ button, input { font: inherit; }
 .demo-badge { display: inline-flex; flex-shrink: 0; padding: 3px 8px; border: 1px solid var(--border-strong); border-radius: 999px; color: var(--text-muted); font-size: .65rem; }
 .scenario-options { display: grid; gap: 8px; margin: 28px 0 22px; }
 .scenario-option { width: 100%; padding: 11px 13px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--text-muted); cursor: pointer; font: inherit; font-size: .82rem; text-align: right; transition: border-color .2s ease, background .2s ease, color .2s ease; }
-.scenario-option:hover, .scenario-option:focus-visible { border-color: rgba(155, 212, 81, .7); outline: none; }
+.scenario-option:hover, .scenario-option:focus-visible { border-color: rgba(155, 212, 81, .7); }
 .scenario-option.is-selected { border-color: var(--accent); background: var(--accent-soft); color: var(--accent-strong); font-weight: 700; }
 .scenario-scope { padding: 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: rgba(255, 255, 255, .02); }
 .scenario-scope strong { font-size: .8rem; }
@@ -219,7 +253,7 @@ button, input { font: inherit; }
 .dashboard-toolbar strong { font-size: .86rem; }
 .dashboard-periods { display: inline-flex; padding: 3px; border: 1px solid var(--border); border-radius: 9px; background: var(--surface); }
 .period-button { padding: 5px 9px; border: 0; border-radius: 6px; background: transparent; color: var(--text-subtle); cursor: pointer; font: inherit; font-size: .7rem; transition: background .2s ease, color .2s ease; }
-.period-button:hover, .period-button:focus-visible { color: var(--text); outline: none; }
+.period-button:hover, .period-button:focus-visible { color: var(--text); }
 .period-button.is-selected { color: #11160d; background: var(--accent); font-weight: 800; }
 .dashboard-layout { display: grid; grid-template-columns: 1.1fr .9fr; }
 .dashboard-overview { min-height: 300px; padding: 22px; border-inline-end: 1px solid var(--border); }
@@ -284,7 +318,7 @@ button, input { font: inherit; }
 .roadmap-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; list-style: none; counter-reset: steps; }
 .roadmap-steps li { position: relative; padding: 23px 20px 20px; }
 .step-index { display: inline-grid; width: 31px; height: 31px; margin-bottom: 19px; place-items: center; border-radius: 8px; color: #11160d; background: var(--accent); font-size: .8rem; font-weight: 800; }
-.roadmap-steps h4 { margin-bottom: 7px; font-size: .9rem; }
+.roadmap-steps h3 { margin-bottom: 7px; font-size: .9rem; }
 .business-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
 .business-card { min-height: 170px; padding: 23px 20px; background: linear-gradient(145deg, var(--surface-raised), var(--surface)); }
 .business-card h3 { margin-bottom: 9px; color: var(--accent-strong); font-size: .93rem; }
@@ -325,7 +359,7 @@ button, input { font: inherit; }
 .contact-form input[dir="ltr"] { text-align: left; }
 .contact-form input::placeholder { color: var(--text-subtle); }
 .contact-form input:focus,
-.contact-form textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); outline: none; }
+.contact-form textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
 .contact-form [aria-invalid="true"] { border-color: var(--warning); }
 .field-hint { color: var(--text-subtle); font-size: .68rem; }
 .field-error { color: var(--warning); font-size: .72rem; font-weight: 600; }
@@ -405,4 +439,16 @@ button, input { font: inherit; }
   .pulse-city svg { height: 155px; }
   .visual-bar { align-items: flex-start; flex-direction: column; gap: 3px; }
   .footer-inner { align-items: flex-start; flex-direction: column; }
+}
+
+/* Respect the OS motion preference: no drawing, no transitions, no smooth scroll. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .pulse-line { animation: none; stroke-dashoffset: 0; }
 }

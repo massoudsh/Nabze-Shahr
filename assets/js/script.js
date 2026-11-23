@@ -124,23 +124,78 @@ const scenarios = {
 
 scenarioOptions.forEach((option) => {
   option.addEventListener("click", () => {
-    const scenario = scenarios[option.dataset.scenario];
-    if (!scenario) return;
+    selectScenario(option);
+  });
+});
 
-    scenarioOptions.forEach((item) => {
-      item.classList.toggle("is-selected", item === option);
-      item.setAttribute("aria-checked", String(item === option));
-    });
+/**
+ * Announce a single short sentence to screen readers.
+ * @param {string} message
+ */
+function announce(message) {
+  const status = document.getElementById("demoStatus");
+  if (status) status.textContent = message;
+}
 
-    scenarioElements.name.textContent = scenario.name;
-    scenarioElements.scope.textContent = scenario.scope;
-    scenarioElements.travelValue.textContent = renderImpact(scenario.travel);
-    scenarioElements.travelNote.textContent = scenario.travelNote;
-    scenarioElements.serviceValue.textContent = renderImpact(scenario.service);
-    scenarioElements.serviceNote.textContent = scenario.serviceNote;
-    scenarioElements.energyValue.textContent = renderImpact(scenario.energy);
-    scenarioElements.energyNote.textContent = scenario.energyNote;
-    scenarioElements.decision.textContent = scenario.decision;
+function selectScenario(option) {
+  const scenario = scenarios[option.dataset.scenario];
+  if (!scenario) return;
+
+  scenarioOptions.forEach((item) => {
+    const selected = item === option;
+    item.classList.toggle("is-selected", selected);
+    item.setAttribute("aria-checked", String(selected));
+    // Roving tabindex: only the selected radio is in the tab order.
+    item.tabIndex = selected ? 0 : -1;
+  });
+
+  scenarioElements.name.textContent = scenario.name;
+  scenarioElements.scope.textContent = scenario.scope;
+  scenarioElements.travelValue.textContent = renderImpact(scenario.travel);
+  scenarioElements.travelNote.textContent = scenario.travelNote;
+  scenarioElements.serviceValue.textContent = renderImpact(scenario.service);
+  scenarioElements.serviceNote.textContent = scenario.serviceNote;
+  scenarioElements.energyValue.textContent = renderImpact(scenario.energy);
+  scenarioElements.energyNote.textContent = scenario.energyNote;
+  scenarioElements.decision.textContent = scenario.decision;
+
+  announce(`سناریوی «${scenario.name}» انتخاب شد.`);
+}
+
+// Arrow/Home/End navigation, mirroring a native radio group in RTL.
+scenarioOptions.forEach((option, index) => {
+  option.addEventListener("keydown", (event) => {
+    const last = scenarioOptions.length - 1;
+    let nextIndex = null;
+
+    switch (event.key) {
+      case "ArrowRight":
+      case "ArrowDown":
+        nextIndex = index === 0 ? last : index - 1;
+        break;
+      case "ArrowLeft":
+      case "ArrowUp":
+        nextIndex = index === last ? 0 : index + 1;
+        break;
+      case "Home":
+        nextIndex = 0;
+        break;
+      case "End":
+        nextIndex = last;
+        break;
+      case " ":
+      case "Enter":
+        event.preventDefault();
+        selectScenario(option);
+        return;
+      default:
+        return;
+    }
+
+    event.preventDefault();
+    const next = scenarioOptions[nextIndex];
+    selectScenario(next);
+    next.focus();
   });
 });
 
@@ -191,7 +246,12 @@ periodButtons.forEach((button) => {
     const period = dashboardPeriods[button.dataset.period];
     if (!period) return;
 
-    periodButtons.forEach((item) => item.classList.toggle("is-selected", item === button));
+    periodButtons.forEach((item) => {
+      const selected = item === button;
+      item.classList.toggle("is-selected", selected);
+      item.setAttribute("aria-pressed", String(selected));
+    });
+
     dashboardElements.period.textContent = period.period;
     dashboardElements.priority.textContent = period.priority;
     dashboardElements.priorityNote.textContent = period.priorityNote;
@@ -204,6 +264,8 @@ periodButtons.forEach((button) => {
       dashboardElements[`${metric}State`].textContent = source.state;
       dashboardElements[`${metric}State`].className = `metric-state ${source.stateClass}`;
     });
+
+    announce(`بازه زمانی به «${period.period}» تغییر کرد.`);
   });
 });
 

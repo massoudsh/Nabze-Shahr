@@ -11,6 +11,8 @@
 </head>
 <body>
 
+<a class="skip-link" href="#top">رفتن به محتوای اصلی</a>
+
 <header class="site-header">
   <div class="container header-inner">
     <a href="#top" class="logo">
@@ -155,10 +157,10 @@
             </div>
             <span class="demo-badge">نمونه نمایشی</span>
           </div>
-          <div class="scenario-options" role="radiogroup" aria-label="انتخاب سناریو">
-            <button type="button" class="scenario-option is-selected" role="radio" aria-checked="true" data-scenario="traffic">تغییر مسیر ترافیک</button>
-            <button type="button" class="scenario-option" role="radio" aria-checked="false" data-scenario="construction">پروژه عمرانی</button>
-            <button type="button" class="scenario-option" role="radio" aria-checked="false" data-scenario="crisis">مدیریت بحران</button>
+          <div class="scenario-options" role="radiogroup" aria-label="انتخاب سناریو" id="scenarioOptions">
+            <button type="button" class="scenario-option is-selected" role="radio" aria-checked="true" tabindex="0" data-scenario="traffic">تغییر مسیر ترافیک</button>
+            <button type="button" class="scenario-option" role="radio" aria-checked="false" tabindex="-1" data-scenario="construction">پروژه عمرانی</button>
+            <button type="button" class="scenario-option" role="radio" aria-checked="false" tabindex="-1" data-scenario="crisis">مدیریت بحران</button>
           </div>
           <div class="scenario-scope">
             <span class="control-label">محدوده‌ی تحلیل</span>
@@ -166,7 +168,7 @@
           </div>
           <p class="scenario-hint">برای تحلیل عملیاتی، داده‌های محلی و محدودیت‌های اجرایی هر شهر به سناریو افزوده می‌شود.</p>
         </div>
-        <div class="impact-panel" aria-live="polite">
+        <div class="impact-panel">
           <div class="impact-panel-header">
             <div>
               <span class="control-label">برآورد اثر سناریو</span>
@@ -174,7 +176,7 @@
             </div>
             <span class="model-status"><i></i>مدل آماده تحلیل</span>
           </div>
-          <div class="impact-metrics">
+          <div class="impact-metrics" aria-live="polite" aria-atomic="true">
             <div class="impact-metric"><span>زمان سفر</span><strong id="travelValue">−۱۲٪</strong><small id="travelNote">بهبود در محور هدف</small></div>
             <div class="impact-metric"><span>دسترسی خدمات</span><strong id="serviceValue">+۸٪</strong><small id="serviceNote">پوشش مسیرهای اضطراری</small></div>
             <div class="impact-metric"><span>مصرف انرژی</span><strong id="energyValue">−۵٪</strong><small id="energyNote">کاهش توقف خودروها</small></div>
@@ -195,12 +197,12 @@
         <div class="dashboard-toolbar">
           <div><span class="control-label">داشبورد عملیاتی</span><strong>نمای کلی شهر</strong></div>
           <div class="dashboard-periods" role="group" aria-label="بازه زمانی">
-            <button type="button" class="period-button is-selected" data-period="now">اکنون</button>
-            <button type="button" class="period-button" data-period="today">امروز</button>
-            <button type="button" class="period-button" data-period="week">هفته</button>
+            <button type="button" class="period-button is-selected" aria-pressed="true" data-period="now">اکنون</button>
+            <button type="button" class="period-button" aria-pressed="false" data-period="today">امروز</button>
+            <button type="button" class="period-button" aria-pressed="false" data-period="week">هفته</button>
           </div>
         </div>
-        <div class="dashboard-layout" aria-live="polite">
+        <div class="dashboard-layout">
           <div class="dashboard-overview">
             <div class="overview-header"><span class="control-label" id="dashboardPeriod">وضعیت اکنون</span><span class="live-status"><i></i>دریافت داده فعال</span></div>
             <div class="city-signal-visual" aria-hidden="true">
@@ -209,7 +211,7 @@
             </div>
             <div class="overview-summary"><span>اولویت عملیاتی</span><strong id="priorityValue">پایش ترافیک کریدور شمالی</strong><small id="priorityNote">سطح توجه: متوسط</small></div>
           </div>
-          <div class="dashboard-metrics">
+          <div class="dashboard-metrics" aria-live="polite" aria-atomic="true">
             <article class="dashboard-metric"><div class="metric-icon">↝</div><div><span>جریان ترافیک</span><strong id="trafficStatus">روان</strong><small id="trafficDetail">۸۶٪ ظرفیت شبکه</small></div><b class="metric-state good" id="trafficState">پایدار</b></article>
             <article class="dashboard-metric"><div class="metric-icon">ϟ</div><div><span>مصرف انرژی</span><strong id="energyStatus">متوازن</strong><small id="energyDetail">۲٪ کمتر از الگوی مرجع</small></div><b class="metric-state good" id="energyState">بهینه</b></article>
             <article class="dashboard-metric"><div class="metric-icon">!</div><div><span>رخدادهای شهری</span><strong id="incidentStatus">۳ مورد</strong><small id="incidentDetail">بدون رخداد بحرانی</small></div><b class="metric-state watch" id="incidentState">پایش</b></article>
@@ -374,28 +376,28 @@
         <li>
           <span class="step-index">۱</span>
           <div>
-            <h4>حل یک مسئله مشخص</h4>
+            <h3>حل یک مسئله مشخص</h3>
             <p>شبیه‌سازی ترافیک، مدیریت بحران یا ارزیابی پروژه‌های عمرانی به‌عنوان نقطه ورود.</p>
           </div>
         </li>
         <li>
           <span class="step-index">۲</span>
           <div>
-            <h4>یکپارچه‌سازی داده‌های شهر</h4>
+            <h3>یکپارچه‌سازی داده‌های شهر</h3>
             <p>اتصال سامانه‌های GIS، ترافیک، خدمات شهری و زیرساخت به یک بستر واحد.</p>
           </div>
         </li>
         <li>
           <span class="step-index">۳</span>
           <div>
-            <h4>افزودن موتور هوش مصنوعی</h4>
+            <h3>افزودن موتور هوش مصنوعی</h3>
             <p>پیش‌بینی چندلایه اثر تصمیم‌ها با انباشت داده و مدل‌های یادگیری‌شده از رخدادهای گذشته.</p>
           </div>
         </li>
         <li>
           <span class="step-index">۴</span>
           <div>
-            <h4>دوقلوی دیجیتال کامل شهر</h4>
+            <h3>دوقلوی دیجیتال کامل شهر</h3>
             <p>مغز شبیه‌ساز و تصمیم‌یار یکپارچه برای همه حوزه‌های مدیریت شهری.</p>
           </div>
         </li>
@@ -546,6 +548,8 @@
     <p class="footer-note">© تمام حقوق محفوظ است — پلتفرم دوقلوی دیجیتال و شبیه‌ساز هوشمند تصمیم‌گیری شهری</p>
   </div>
 </footer>
+
+<p class="sr-only" id="demoStatus" role="status" aria-live="polite"></p>
 
 <script src="assets/js/script.js" type="module"></script>
 </body>
