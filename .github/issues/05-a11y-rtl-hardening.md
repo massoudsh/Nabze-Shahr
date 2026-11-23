@@ -1,3 +1,5 @@
+> **Status:** ✅ Done — commit 65326ee
+
 # 05 — Accessibility and RTL hardening for municipal users
 
 <!-- labels: type:bug,area:a11y,market:iran,priority:p1 -->

@@ -1,3 +1,5 @@
+> **Status:** ✅ Done — commit 0f9e11b
+
 # 03 — Turn the demo contact form into a real, validated lead form
 
 <!-- labels: type:bug,type:feature,area:conversion,market:iran,priority:p0 -->

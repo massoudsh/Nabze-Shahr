@@ -1,5 +1,8 @@
 # Agent backlog — Iran market gaps
 
+> **All nine issues are implemented and pushed.** Each file starts with its
+> landing commit; the table below records the outcome.
+
 Nine self-contained work orders derived from an audit of the shipped landing page
 against Iranian B2G expectations (municipal procurement, Iranian network
 conditions, Persian financial/date conventions, and the competitors the page
@@ -52,3 +55,19 @@ a business decision first:
 - Labels used in the specs: `type:*`, `area:*`, `market:iran`, `priority:p0|p1|p2`.
 - Every acceptance criterion is verifiable without a browser.
 - No speculative connectors, customers, certifications, or numbers.
+
+## Implementation record
+
+| # | Issue | Commit | What shipped |
+|---|---|---|---|
+| 01 | Self-host Vazirmatn | `bed80b2` | Five woff2 weights + OFL license, `@font-face`, no CDN requests |
+| 02 | Persian formatting | `90d594e` | `assets/js/format.js`, Jalali conversion, Toman/percent helpers, render-time formatting |
+| 03 | Real lead form | `0f9e11b` | Labeled form, Iranian mobile validation, consent, honeypot, `submitLead` adapter |
+| 04 | SEO discoverability | `7a5f3d3` | OG/Twitter cards, canonical, JSON-LD, favicon, OG cover, robots, sitemap |
+| 05 | A11y & RTL hardening | `65326ee` | Skip link, focus rings, roving tabindex, `aria-pressed`, short announcements, reduced motion, AA contrast |
+| 06 | B2G trust layer | `4dbea38` | `#trust` section with honest placeholders, `docs/procurement.md` |
+| 07 | Iranian integrations | `cc70400` | `docs/integrations.md`, JSON Schema, example adapter, validator, `#integrations` section |
+| 08 | Data-driven demo | `45e04d0` | `assets/data/*.json`, `assets/js/data.js`, `file://` fallback |
+| 09 | CI, 404, integrity | `7998d76` | Read-only workflow, anchor checker, Persian 404, nginx config, guard tests |
+
+Test suite: 96 tests via `node --test tests/`, no dependencies.

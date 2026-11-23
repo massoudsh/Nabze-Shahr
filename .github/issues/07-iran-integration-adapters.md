@@ -1,3 +1,5 @@
+> **Status:** ✅ Done — commit cc70400
+
 # 07 — Document and surface Iranian integration adapters (137, GIS, ITS, BRT)
 
 <!-- labels: type:feature,area:integrations,market:iran,priority:p1 -->

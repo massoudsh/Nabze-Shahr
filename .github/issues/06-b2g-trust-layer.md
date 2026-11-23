@@ -1,3 +1,5 @@
+> **Status:** ✅ Done — commit 4dbea38
+
 # 06 — Build the B2G trust layer: hosting, security, SLA, procurement pack
 
 <!-- labels: type:feature,area:content,market:iran,priority:p1 -->

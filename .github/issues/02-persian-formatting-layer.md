@@ -1,3 +1,5 @@
+> **Status:** ✅ Done — commit 90d594e
+
 # 02 — Add a Persian formatting layer (Jalali dates, Persian digits, Toman)
 
 <!-- labels: type:feature,area:i18n,market:iran,priority:p0 -->

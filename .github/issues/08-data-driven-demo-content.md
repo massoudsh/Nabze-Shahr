@@ -1,3 +1,5 @@
+> **Status:** ✅ Done — commit 45e04d0
+
 # 08 — Move demo content out of JavaScript into validated data files
 
 <!-- labels: type:refactor,area:content,priority:p2 -->

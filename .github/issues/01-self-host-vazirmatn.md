@@ -1,3 +1,5 @@
+> **Status:** ✅ Done — commit bed80b2
+
 # 01 — Self-host Vazirmatn and remove the Google Fonts dependency
 
 <!-- labels: type:enhancement,area:performance,market:iran,priority:p0 -->

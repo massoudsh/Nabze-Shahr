@@ -1,3 +1,5 @@
+> **Status:** ✅ Done — commit 7a5f3d3
+
 # 04 — Add discoverability essentials: metadata, structured data, sitemap, favicon
 
 <!-- labels: type:feature,area:seo,market:iran,priority:p1 -->
